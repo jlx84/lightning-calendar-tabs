@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://lightningcalendartabs/locale/options.dtd">
+<prefwindow id="lightningcalendartabs_prefwindow" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&options_window_title;">
+	<prefpane id="lightningcalendartabs_paneOptions" label="Options">
+
+		<preferences>
+			<preference id="extensions.lightningcalendartabs.tabs.months.enabled" name="extensions.lightningcalendartabs.tabs.months.enabled" type="bool"/>
+			<preference id="extensions.lightningcalendartabs.tabs.months.past" name="extensions.lightningcalendartabs.tabs.months.past" type="int"/>
+			<preference id="extensions.lightningcalendartabs.tabs.months.future" name="extensions.lightningcalendartabs.tabs.months.future" type="int"/>
+
+			<preference id="extensions.lightningcalendartabs.tabs.multiweeks.enabled" name="extensions.lightningcalendartabs.tabs.multiweeks.enabled" type="bool"/>
+			<preference id="extensions.lightningcalendartabs.tabs.multiweeks.past" name="extensions.lightningcalendartabs.tabs.multiweeks.past" type="int"/>
+			<preference id="extensions.lightningcalendartabs.tabs.multiweeks.future" name="extensions.lightningcalendartabs.tabs.multiweeks.future" type="int"/>
+
+			<preference id="extensions.lightningcalendartabs.tabs.weeks.enabled" name="extensions.lightningcalendartabs.tabs.weeks.enabled" type="bool"/>
+			<preference id="extensions.lightningcalendartabs.tabs.weeks.past" name="extensions.lightningcalendartabs.tabs.weeks.past" type="int"/>
+			<preference id="extensions.lightningcalendartabs.tabs.weeks.future" name="extensions.lightningcalendartabs.tabs.weeks.future" type="int"/>
+
+			<preference id="extensions.lightningcalendartabs.tabs.days.enabled" name="extensions.lightningcalendartabs.tabs.days.enabled" type="bool"/>
+			<preference id="extensions.lightningcalendartabs.tabs.days.past" name="extensions.lightningcalendartabs.tabs.days.past" type="int"/>
+			<preference id="extensions.lightningcalendartabs.tabs.days.future" name="extensions.lightningcalendartabs.tabs.days.future" type="int"/>
+
+			<preference id="extensions.lightningcalendartabs.tabs.text_color_new_period" name="extensions.lightningcalendartabs.tabs.text_color_new_period" type="string" />
+			<preference id="extensions.lightningcalendartabs.tabs.text_color_current" name="extensions.lightningcalendartabs.tabs.text_color_current" type="string" />
+			<preference id="extensions.lightningcalendartabs.tabs.text_color_past" name="extensions.lightningcalendartabs.tabs.text_color_past" type="string" />
+			<preference id="extensions.lightningcalendartabs.tabs.text_color_future" name="extensions.lightningcalendartabs.tabs.text_color_future" type="string" />
+
+		</preferences>
+
+		<script type="application/javascript" src="chrome://lightningcalendartabs/content/options.js"/>
+
+		<description class="header">
+			&options_window_header;
+		</description>
+
+		<separator class="groove-thin"/>
+		<separator class="thin"/>
+
+		<hbox>
+			<groupbox width="280">
+				<caption label="&options_window_prefs_months;"/>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_tab_type_enabled;" />
+					</vbox>
+					<vbox width="50">
+						<checkbox checked="true" id="extensions.lightningcalendartabs.tabs.months.enabled" preference="extensions.lightningcalendartabs.tabs.months.enabled" />
+					</vbox>
+				</hbox>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_past;" />
+					</vbox>
+					<vbox width="50">
+						<textbox type="number" min="0" max="12" id="extensions.lightningcalendartabs.tabs.months.past" preference="extensions.lightningcalendartabs.tabs.months.past" />
+					</vbox>
+				</hbox>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_future;" />
+					</vbox>
+					<vbox width="50">
+						<textbox type="number" min="0" max="12" id="extensions.lightningcalendartabs.tabs.months.future" preference="extensions.lightningcalendartabs.tabs.months.future" />
+					</vbox>
+				</hbox>
+
+			</groupbox>
+
+			<groupbox width="280">
+				<caption label="&options_window_prefs_multiweeks;"/>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_tab_type_enabled;" />
+					</vbox>
+					<vbox width="50">
+						<checkbox checked="true" id="extensions.lightningcalendartabs.tabs.multiweeks.enabled" preference="extensions.lightningcalendartabs.tabs.multiweeks.enabled" />
+					</vbox>
+				</hbox>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_past;" />
+					</vbox>
+					<vbox width="50">
+						<textbox type="number" min="0" max="20" id="extensions.lightningcalendartabs.tabs.multiweeks.past" preference="extensions.lightningcalendartabs.tabs.multiweeks.past" />
+					</vbox>
+				</hbox>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_future;" />
+					</vbox>
+					<vbox width="50">
+						<textbox type="number" min="0" max="20" id="extensions.lightningcalendartabs.tabs.multiweeks.future" preference="extensions.lightningcalendartabs.tabs.multiweeks.future" />
+					</vbox>
+				</hbox>
+
+			</groupbox>
+		</hbox>
+		<hbox>
+			<groupbox width="280">
+				<caption label="&options_window_prefs_weeks;"/>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_tab_type_enabled;" />
+					</vbox>
+					<vbox width="50">
+						<checkbox checked="true" id="extensions.lightningcalendartabs.tabs.weeks.enabled" preference="extensions.lightningcalendartabs.tabs.weeks.enabled" />
+					</vbox>
+				</hbox>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_past;" />
+					</vbox>
+					<vbox width="50">
+						<textbox type="number" min="0" max="20" id="extensions.lightningcalendartabs.tabs.weeks.past" preference="extensions.lightningcalendartabs.tabs.weeks.past" />
+					</vbox>
+				</hbox>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_future;" />
+					</vbox>
+					<vbox width="50">
+						<textbox type="number" min="0" max="20" id="extensions.lightningcalendartabs.tabs.weeks.future" preference="extensions.lightningcalendartabs.tabs.weeks.future" />
+					</vbox>
+				</hbox>
+
+			</groupbox>
+
+			<groupbox width="280">
+				<caption label="&options_window_prefs_days;"/>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_tab_type_enabled;" />
+					</vbox>
+					<vbox width="50">
+						<checkbox checked="true" id="extensions.lightningcalendartabs.tabs.days.enabled" preference="extensions.lightningcalendartabs.tabs.days.enabled" />
+					</vbox>
+				</hbox>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_past;" />
+					</vbox>
+					<vbox width="50">
+						<textbox type="number" min="0" max="31" id="extensions.lightningcalendartabs.tabs.days.past" preference="extensions.lightningcalendartabs.tabs.days.past" />
+					</vbox>
+				</hbox>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_future;" />
+					</vbox>
+					<vbox width="50">
+						<textbox type="number" min="0" max="31" id="extensions.lightningcalendartabs.tabs.days.future" preference="extensions.lightningcalendartabs.tabs.days.future" />
+					</vbox>
+				</hbox>
+
+			</groupbox>
+		</hbox>
+
+		<!-- other settings -->
+		<hbox>
+			<groupbox width="280">
+				<caption label="&options_window_prefs_global;"/>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_tab_text_color_current;" />
+					</vbox>
+					<vbox>
+						<colorpicker type="button" id="extensions.lightningcalendartabs.tabs.text_color_current" preference="extensions.lightningcalendartabs.tabs.text_color_current" />
+					</vbox>
+				</hbox>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_tab_text_color_past;" />
+					</vbox>
+					<vbox>
+						<colorpicker type="button" id="extensions.lightningcalendartabs.tabs.text_color_past" preference="extensions.lightningcalendartabs.tabs.text_color_past" />
+					</vbox>
+				</hbox>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_tab_text_color_future;" />
+					</vbox>
+					<vbox>
+						<colorpicker type="button" id="extensions.lightningcalendartabs.tabs.text_color_future" preference="extensions.lightningcalendartabs.tabs.text_color_future" />
+					</vbox>
+				</hbox>
+
+				<hbox>
+					<vbox width="200">
+						<label value="&options_window_tab_text_color_new_period;" />
+					</vbox>
+					<vbox>
+						<colorpicker type="button" id="extensions.lightningcalendartabs.tabs.text_color_new_period" preference="extensions.lightningcalendartabs.tabs.text_color_new_period" />
+					</vbox>
+				</hbox>
+
+			</groupbox>
+		</hbox>
+
+	</prefpane>
+
+</prefwindow>

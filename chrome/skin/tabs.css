@@ -1,0 +1,33 @@
+/*
+	CSS sheet for Lightning Calendar Tabs
+	(c) 2012, Jiri Lysek
+	jlx@seznam.cz
+*/
+
+.lightning-calendar-tabs-tabs-container {
+	border-left: 1px solid ThreeDShadow;
+	background: Window;
+}
+
+.lightning-calendar-tabs-tabs-container arrowscrollbox {
+	background: Window;
+	border: 1px solid red;
+}
+
+.lightning-calendar-tabs-tabs-container tab {
+	background: Window;
+	color: ButtonText;
+}
+
+.lightning-calendar-tabs-tabs-container tab[selected=true] {
+	font-weight: bold;
+}
+
+.lightning-calendar-tabs-tabs-container tab.current {
+}
+
+.lightning-calendar-tabs-tabs-container tab.past {
+}
+
+.lightning-calendar-tabs-tabs-container tab.future {
+}
