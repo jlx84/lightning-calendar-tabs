@@ -60,18 +60,20 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		
 		if(tabs) {
 			var self = this;
+			var viewTabs = document.getElementById("view-tabs");
 
-			getViewDeck().addEventListener("viewloaded", function() {
+			getViewDeck().addEventListener("viewloaded", function(event) {
 				self.decideTabsVisibility();
 			}, false);
 			getViewDeck().addEventListener("dayselect", function() {
 				self.updateTabs();
 			}, false);
-			getViewDeck().addEventListener("DOMSubtreeModified", function() {
+			//attach to lightning's tabs select event to switch tab type
+			viewTabs.addEventListener("select", function() {
 				self.decideTabsVisibility();
-			}, false);
+			});
 			this.createTabBox();
-
+			
 			this.initializeTabControllers();
 		}
 	};
@@ -176,7 +178,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 		var calendar = document.getElementById("calendar-view-box");
 		var viewDeck = document.getElementById("view-deck");
-
+		
 		calendar.insertBefore(this.arrowscrollbox, viewDeck);
 
 		this.arrowscrollbox.appendChild(this.tabBox);

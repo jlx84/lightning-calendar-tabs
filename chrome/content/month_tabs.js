@@ -38,8 +38,6 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	};
 
 	LightningCalendarTabs.monthTabs.prototype.show = function(tabs) {
-		LightningCalendarTabs.tabUtils.log("GENERATING NEW MONT TABS");
-		
 		var date = new Date();
 		date.setDate(1);
 
