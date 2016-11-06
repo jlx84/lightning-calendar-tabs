@@ -31,7 +31,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 (function() {
 
 	Components.utils["import"]("resource://calendar/modules/calUtils.jsm");
-
+	
 	LightningCalendarTabs.tabsController = function() {
 		this.arrowscrollbox = null;
 		this.tabBox = null;
@@ -49,7 +49,13 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		this.visible = false;
 	};
 
+	/**
+	 * attach events
+	 * 
+	 * @returns {undefined}
+	 */
 	LightningCalendarTabs.tabsController.prototype.startup = function() {
+	
 		var tabs = document.getElementById("view-tabs");
 		
 		if(tabs) {
@@ -64,7 +70,6 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			getViewDeck().addEventListener("DOMSubtreeModified", function() {
 				self.decideTabsVisibility();
 			}, false);
-
 			this.createTabBox();
 
 			this.initializeTabControllers();
@@ -114,6 +119,11 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		}
 	};
 
+	/**
+	 * hide or show tabs depending on what user view user selected and if this tabs are enabled in options
+	 * 
+	 * @returns {undefined}
+	 */
 	LightningCalendarTabs.tabsController.prototype.decideTabsVisibility = function() {
 		this.selectCurrentController();
 		if(this.currentTabs !== null) {
@@ -123,6 +133,11 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		}
 	};
 
+	/**
+	 * select controller depending on user selection
+	 * 
+	 * @returns {undefined}
+	 */
 	LightningCalendarTabs.tabsController.prototype.selectCurrentController = function() {
 		var buttMonth = document.getElementById("calendar-month-view-button");
 		var buttWeek = document.getElementById("calendar-week-view-button");
@@ -169,9 +184,9 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	};
 
 	LightningCalendarTabs.tabsController.prototype.showTabBox = function() {
-		if(!this.visible && this.currentTabs !== null) {
+		if(!this.visible && this.currentTabs !== null && this.tabBox && this.tabs) {
 			this.currentTabs.show(this.tabs);
-			this.currentTabs.update();
+			this.currentTabs.update(this.tabs);
 			this.visible = true;
 			this.tabBox.style.display = "block";
 		}
@@ -191,14 +206,24 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		this.tabBox.style.display = "none";
 	};
 
+	/**
+	 * select actual tab on day selection in calendar
+	 * 
+	 * @returns {undefined}
+	 */
 	LightningCalendarTabs.tabsController.prototype.updateTabs = function() {
-		if(this.currentTabs !== null) {
-			this.currentTabs.update();
+		if(this.currentTabs !== null && this.tabs) {
+			this.currentTabs.update(this.tabs);
 		}
 	};
 
 	//--------------------------------------------------------------------------
 
+	/**
+	 * callback for options update
+	 * 
+	 * @returns {undefined}
+	 */
 	LightningCalendarTabs.tabsController.prototype.updatePrefs = function() {
 		this.initializeTabControllers();
 		this.hideTabBox();
@@ -208,6 +233,9 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 	//-----------------------------------------------------------------------------
 
+	/**
+	 * init
+	 */
 	window.addEventListener("load", function(e) {
 		var lct = new LightningCalendarTabs.tabsController();
 		lct.startup();

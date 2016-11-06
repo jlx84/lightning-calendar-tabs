@@ -68,15 +68,15 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		}
 	};
 
-	LightningCalendarTabs.dayTabs.prototype.update = function() {
-		this.highlightCurrentWeek();
+	LightningCalendarTabs.dayTabs.prototype.update = function(tabs) {
+		this.highlightCurrentWeek(tabs);
 	};
 
-	LightningCalendarTabs.dayTabs.prototype.highlightCurrentWeek = function() {
+	LightningCalendarTabs.dayTabs.prototype.highlightCurrentWeek = function(tabs) {
 		var dateStart = currentView().rangeStartDate;
 		if(dateStart) {
 			var jsDateStart = new Date(dateStart.year, dateStart.month, dateStart.day);
-			this.updateTabsState(jsDateStart);
+			this.updateTabsState(tabs, jsDateStart);
 		}
 	};
 
@@ -84,12 +84,11 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		currentView().goToDay(LightningCalendarTabs.tabUtils.jsDateToDateTime(date));
 	};
 
-	LightningCalendarTabs.dayTabs.prototype.updateTabsState = function(date) {
-		for(var i in this.tabs) {
+	LightningCalendarTabs.dayTabs.prototype.updateTabsState = function(tabs, date) {
+		for(var i = 0; i < this.tabs.length; i++) {
 			if(this.dateEqual(date, this.tabs[i].date)) {
-				this.tabs[i].tab.setAttribute("selected", true);
-			} else {
-				this.tabs[i].tab.setAttribute("selected", false);
+				tabs.selectedIndex = i;
+				return;
 			}
 		}
 	};

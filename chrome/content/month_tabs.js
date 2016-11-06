@@ -38,6 +38,8 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	};
 
 	LightningCalendarTabs.monthTabs.prototype.show = function(tabs) {
+		LightningCalendarTabs.tabUtils.log("GENERATING NEW MONT TABS");
+		
 		var date = new Date();
 		date.setDate(1);
 
@@ -68,14 +70,14 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		}
 	};
 
-	LightningCalendarTabs.monthTabs.prototype.update = function() {
-		this.highlightCurrentMonth();
+	LightningCalendarTabs.monthTabs.prototype.update = function(tabs) {
+		this.highlightCurrentMonth(tabs);
 	};
 
-	LightningCalendarTabs.monthTabs.prototype.highlightCurrentMonth = function() {
+	LightningCalendarTabs.monthTabs.prototype.highlightCurrentMonth = function(tabs) {
 		var dateStart = currentView().rangeStartDate;
 		if(dateStart) {
-			this.updateTabsState(new Date(dateStart.year, dateStart.month, dateStart.day));
+			this.updateTabsState(tabs, new Date(dateStart.year, dateStart.month, dateStart.day));
 		}
 	};
 
@@ -91,12 +93,11 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		}
 	};
 
-	LightningCalendarTabs.monthTabs.prototype.updateTabsState = function(date) {
-		for(var i in this.tabs) {
+	LightningCalendarTabs.monthTabs.prototype.updateTabsState = function(tabs, date) {
+		for(var i = 0; i < this.tabs.length; i++) {
 			if(this.dateEqual(date, this.tabs[i].date)) {
-				this.tabs[i].tab.setAttribute("selected", true);
-			} else {
-				this.tabs[i].tab.setAttribute("selected", false);
+				tabs.selectedIndex = i;
+				return;
 			}
 		}
 	};

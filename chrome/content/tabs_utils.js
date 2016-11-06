@@ -40,12 +40,17 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	LightningCalendarTabs.tabUtils.PERIOD_DAY = "day";
 
 	LightningCalendarTabs.tabUtils.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
+	
+	LightningCalendarTabs.tabUtils.application = Components.classes["@mozilla.org/steel/application;1"].getService(Components.interfaces.steelIApplication);
+	LightningCalendarTabs.tabUtils.log = function(value) {
+		LightningCalendarTabs.tabUtils.application.console.log.apply(undefined, arguments);
+	};
 
 	LightningCalendarTabs.tabUtils.prepareTabVisual = function(tab, i, date, periodType) {
 		var prefs = LightningCalendarTabs.tabUtils.prefs;
 		var classNames = "";
 
-		//color the previous, current and past tab
+		//color for the previous, current and past tab
 		if(i == 0) {
 			classNames = "current";
 			tab.style.color = prefs.getCharPref("extensions.lightningcalendartabs.tabs.text_color_current");
@@ -57,7 +62,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			tab.style.color = prefs.getCharPref("extensions.lightningcalendartabs.tabs.text_color_future");
 		}
 
-		//color new period tab
+		//color for new period tab
 		var newPeriodColor = prefs.getCharPref("extensions.lightningcalendartabs.tabs.text_color_new_period");
 		var tmp = new Date(date);
 		switch(periodType) {
