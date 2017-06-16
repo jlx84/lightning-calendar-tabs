@@ -1,4 +1,5 @@
 "use strict";
+Components.utils.import("resource://gre/modules/Preferences.jsm");
 
 /*
     This file is part of Lightning Calendar Tabs extension.
@@ -75,7 +76,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			} break;
 			case this.PERIOD_MULTIWEEK: {
 				//contains new year
-				var weekCount = getPrefSafe("calendar.weeks.inview", 4);
+				var weekCount = Preferences.get("calendar.weeks.inview", 4);
 				tmp.setDate(date.getDate() + ((weekCount - 1) * 7) + 6);
 				if(date.getFullYear() != tmp.getFullYear() || (date.getMonth() == 0 && date.getDate() == 1)) {
 					tab.style.color = newPeriodColor;
@@ -89,7 +90,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			} break;
 			case this.PERIOD_DAY: {
 				//first day of week
-				var weekStartDay = getPrefSafe("calendar.week.start", 0);
+				var weekStartDay = Preferences.get("calendar.week.start", 0);
 				if(date.getDay() == weekStartDay) {
 					tab.style.color = newPeriodColor;
 				}

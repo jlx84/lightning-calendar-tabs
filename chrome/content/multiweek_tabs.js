@@ -1,5 +1,5 @@
 "use strict";
-
+Components.utils.import("resource://gre/modules/Preferences.jsm");
 /*
     This file is part of Lightning Calendar Tabs extension.
 
@@ -36,17 +36,17 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		this.pastTabs = pastCount;
 		this.futureTabs = futureCount;
 
-		this.weekStartDay = getPrefSafe("calendar.week.start", 0);
-		this.weekCount = getPrefSafe("calendar.weeks.inview", 4);
-		this.weekPrev = getPrefSafe("calendar.previousweeks.inview", 1);
+		this.weekStartDay = Preferences.get("calendar.week.start", 0);
+		this.weekCount = Preferences.get("calendar.weeks.inview", 4);
+		this.weekPrev = Preferences.get("calendar.previousweeks.inview", 1);
 	};
 
 	LightningCalendarTabs.multiWeekTabs.prototype.show = function(tabs) {
-		this.weekStartDay = getPrefSafe("calendar.week.start", 0);
-		this.weekCount = getPrefSafe("calendar.weeks.inview", 4);
-		this.weekPrev = getPrefSafe("calendar.previousweeks.inview", 1);
+		this.weekStartDay = Preferences.get("calendar.week.start", 0);
+		this.weekCount = Preferences.get("calendar.weeks.inview", 4);
+		this.weekPrev = Preferences.get("calendar.previousweeks.inview", 1);
 
-		var formatter = getDateFormatter();
+		var formatter = cal.getDateFormatter();
 
 		var date = this.resetDateToWeekStart(new Date());
 		date.setDate(date.getDate() - (this.weekPrev * 7));

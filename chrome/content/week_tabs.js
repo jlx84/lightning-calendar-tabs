@@ -1,4 +1,5 @@
 "use strict";
+Components.utils.import("resource://gre/modules/Preferences.jsm");
 
 /*
     This file is part of Lightning Calendar Tabs extension.
@@ -36,11 +37,11 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		this.pastWeeks = pastCount;
 		this.futureWeeks = futureCount;
 
-		this.weekStartDay = getPrefSafe("calendar.week.start", 0);
+		this.weekStartDay = Preferences.get("calendar.week.start", 0);
 	};
 
 	LightningCalendarTabs.weekTabs.prototype.show = function(tabs) {
-		this.weekStartDay = getPrefSafe("calendar.week.start", 0);
+		this.weekStartDay = Preferences.get("calendar.week.start", 0);
 
 		var formatter = getDateFormatter();
 

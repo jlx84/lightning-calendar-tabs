@@ -5,7 +5,7 @@
   <Description about="urn:mozilla:install-manifest">
 	<em:id>lightningcalendartabs@jlx.84</em:id>
 	<em:name>Lightning Calendar Tabs</em:name>
-	<em:version>1.5</em:version>
+	<em:version>1.6</em:version>
 	<em:creator>jlx84</em:creator>
 	<em:type>2</em:type>
 	<em:description>An addon which extends the Lighting calendar views with tabs.</em:description>
@@ -13,7 +13,7 @@
 	  <Description>
 		<em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
 		<em:minVersion>5.0</em:minVersion>
-		<em:maxVersion>45.*</em:maxVersion>
+		<em:maxVersion>53.*</em:maxVersion>
 	  </Description>
 	</em:targetApplication>
 	<em:optionsURL>chrome://lightningcalendartabs/content/options.xul</em:optionsURL>

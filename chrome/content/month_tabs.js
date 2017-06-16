@@ -41,7 +41,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		var date = new Date();
 		date.setDate(1);
 
-		var formatter = getDateFormatter();
+		var formatter = cal.getDateFormatter();
 
 		for(var i = - this.pastMonths; i <= this.futureMonths; i++) {
 			var tmpDate = new Date(date);
