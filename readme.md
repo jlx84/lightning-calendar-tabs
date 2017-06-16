@@ -15,3 +15,8 @@ To load this plugin into Thunderbird for development make a text file in
 
 Start thunderbird with command `thunderbird -P devel` (devel is name of
 your development profile).
+
+## "Building" the plugin
+
+Compress `chrome` and `defaults` folder along with `chrome.manifest`, `install.rdf` and `licence.txt` files using zip.
+Rename the zip file to *.xpi. Install locally using Thunderbird addon manager.
