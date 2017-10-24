@@ -6,7 +6,7 @@
 
 .lightning-calendar-tabs-tabs-container {
 	border-left: 1px solid ThreeDShadow;
-	background: Window;
+	background: -moz-Field;
 }
 
 .lightning-calendar-tabs-tabs-container arrowscrollbox {
