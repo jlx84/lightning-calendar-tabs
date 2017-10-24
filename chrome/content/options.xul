@@ -25,7 +25,8 @@
 			<preference id="extensions.lightningcalendartabs.tabs.text_color_current" name="extensions.lightningcalendartabs.tabs.text_color_current" type="string" />
 			<preference id="extensions.lightningcalendartabs.tabs.text_color_past" name="extensions.lightningcalendartabs.tabs.text_color_past" type="string" />
 			<preference id="extensions.lightningcalendartabs.tabs.text_color_future" name="extensions.lightningcalendartabs.tabs.text_color_future" type="string" />
-
+			
+			<preference id="extensions.lightningcalendartabs.show_other_tab" name="extensions.lightningcalendartabs.show_other_tab" type="bool" />
 		</preferences>
 
 		<script type="application/javascript" src="chrome://lightningcalendartabs/content/options.js"/>
@@ -170,11 +171,11 @@
 
 		<!-- other settings -->
 		<hbox>
-			<groupbox width="280">
+			<groupbox width="380">
 				<caption label="&options_window_prefs_global;"/>
 
 				<hbox>
-					<vbox width="200">
+					<vbox width="300">
 						<label value="&options_window_tab_text_color_current;" />
 					</vbox>
 					<vbox>
@@ -183,7 +184,7 @@
 				</hbox>
 
 				<hbox>
-					<vbox width="200">
+					<vbox width="300">
 						<label value="&options_window_tab_text_color_past;" />
 					</vbox>
 					<vbox>
@@ -192,7 +193,7 @@
 				</hbox>
 
 				<hbox>
-					<vbox width="200">
+					<vbox width="300">
 						<label value="&options_window_tab_text_color_future;" />
 					</vbox>
 					<vbox>
@@ -201,11 +202,19 @@
 				</hbox>
 
 				<hbox>
-					<vbox width="200">
+					<vbox width="300">
 						<label value="&options_window_tab_text_color_new_period;" />
 					</vbox>
 					<vbox>
 						<colorpicker type="button" id="extensions.lightningcalendartabs.tabs.text_color_new_period" preference="extensions.lightningcalendartabs.tabs.text_color_new_period" />
+					</vbox>
+				</hbox>
+				<hbox>
+					<vbox width="300">
+						<label value="&options_window_show_other_date_tab;" />
+					</vbox>
+					<vbox>
+						<checkbox checked="false" id="extensions.lightningcalendartabs.show_other_tab" preference="extensions.lightningcalendartabs.show_other_tab" />
 					</vbox>
 				</hbox>
 

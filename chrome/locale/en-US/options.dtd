@@ -12,3 +12,4 @@
 <!ENTITY options_window_tab_text_color_current "Text color of current date tab:">
 <!ENTITY options_window_tab_text_color_past "Text color of past date tab:">
 <!ENTITY options_window_tab_text_color_future "Text color of future date tab:">
+<!ENTITY options_window_show_other_date_tab "Display additional tab when out of tabs range:">
