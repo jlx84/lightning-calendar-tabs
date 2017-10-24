@@ -30,16 +30,19 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 (function() {
 
-	LightningCalendarTabs.dayTabs = function(pastCount, futureCount) {
-		this.tabs = [];
-
+	LightningCalendarTabs.dayTabs = function(pastCount, futureCount, otherDateTabEnabled) {
+		LightningCalendarTabs.tabs.call(this, otherDateTabEnabled);
+		this.periodType = LightningCalendarTabs.tabUtils.PERIOD_DAY;
 		this.pastDays = pastCount;
 		this.futureDays = futureCount;
 	};
+	
+	LightningCalendarTabs.dayTabs.prototype = Object.create(LightningCalendarTabs.tabs.prototype);
+	LightningCalendarTabs.dayTabs.prototype.constructor = LightningCalendarTabs.dayTabs;
 
 	LightningCalendarTabs.dayTabs.prototype.show = function(tabs) {
-		var formatter = getDateFormatter();
-
+		LightningCalendarTabs.tabs.prototype.show.call(this);
+		
 		var date = new Date();
 
 		for(var i = - this.pastDays; i <= this.futureDays; i++) {
@@ -48,11 +51,9 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			dateStart.setDate(date.getDate() + i);
 
 			var tab = document.createElement("tab");
-
-			var label = formatter.formatDate(LightningCalendarTabs.tabUtils.jsDateToDateTime(dateStart));
-
-			tab.setAttribute("label", label);
-			LightningCalendarTabs.tabUtils.prepareTabVisual(tab, i, dateStart, LightningCalendarTabs.tabUtils.PERIOD_DAY);
+			this.makeTabLabel(tab, dateStart);
+			
+			LightningCalendarTabs.tabUtils.prepareTabVisual(tab, i, dateStart, this.periodType);
 
 			tab.addEventListener("click", (function(self, date) {
 				return function() {
@@ -68,29 +69,8 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		}
 	};
 
-	LightningCalendarTabs.dayTabs.prototype.update = function(tabs) {
-		this.highlightCurrentWeek(tabs);
-	};
-
-	LightningCalendarTabs.dayTabs.prototype.highlightCurrentWeek = function(tabs) {
-		var dateStart = currentView().rangeStartDate;
-		if(dateStart) {
-			var jsDateStart = new Date(dateStart.year, dateStart.month, dateStart.day);
-			this.updateTabsState(tabs, jsDateStart);
-		}
-	};
-
 	LightningCalendarTabs.dayTabs.prototype.selectDay = function(date) {
 		currentView().goToDay(LightningCalendarTabs.tabUtils.jsDateToDateTime(date));
-	};
-
-	LightningCalendarTabs.dayTabs.prototype.updateTabsState = function(tabs, date) {
-		for(var i = 0; i < this.tabs.length; i++) {
-			if(this.dateEqual(date, this.tabs[i].date)) {
-				tabs.selectedIndex = i;
-				return;
-			}
-		}
 	};
 
 	LightningCalendarTabs.dayTabs.prototype.dateEqual = function(a, b) {
@@ -98,6 +78,10 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			return a.getDate() == b.getDate() && a.getMonth() == b.getMonth() && a.getFullYear() == b.getFullYear();
 		}
 		return false;
+	};
+	
+	LightningCalendarTabs.dayTabs.prototype.makeTabLabel = function(tab, date) {
+		tab.setAttribute("label", this.formatter.formatDate(LightningCalendarTabs.tabUtils.jsDateToDateTime(date)));
 	};
 
 })();

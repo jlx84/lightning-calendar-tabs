@@ -30,26 +30,23 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 (function() {
 
-	LightningCalendarTabs.multiWeekTabs = function(pastCount, futureCount) {
-		this.tabs = [];
-
+	LightningCalendarTabs.multiWeekTabs = function(pastCount, futureCount, otherDateTabEnabled) {
+		LightningCalendarTabs.tabs.call(this, otherDateTabEnabled);
+		this.periodType = LightningCalendarTabs.tabUtils.PERIOD_MULTIWEEK;
 		this.pastTabs = pastCount;
 		this.futureTabs = futureCount;
-
-		this.weekStartDay = Preferences.get("calendar.week.start", 0);
-		this.weekCount = Preferences.get("calendar.weeks.inview", 4);
-		this.weekPrev = Preferences.get("calendar.previousweeks.inview", 1);
 	};
+	
+	LightningCalendarTabs.multiWeekTabs.prototype = Object.create(LightningCalendarTabs.tabs.prototype);
+	LightningCalendarTabs.multiWeekTabs.prototype.constructor = LightningCalendarTabs.multiWeekTabs;
 
 	LightningCalendarTabs.multiWeekTabs.prototype.show = function(tabs) {
-		this.weekStartDay = Preferences.get("calendar.week.start", 0);
-		this.weekCount = Preferences.get("calendar.weeks.inview", 4);
-		this.weekPrev = Preferences.get("calendar.previousweeks.inview", 1);
+		LightningCalendarTabs.tabs.prototype.show.call(this);
+		
+		var weekPrev = Preferences.get("calendar.previousweeks.inview", 1);
 
-		var formatter = cal.getDateFormatter();
-
-		var date = this.resetDateToWeekStart(new Date());
-		date.setDate(date.getDate() - (this.weekPrev * 7));
+		var date = LightningCalendarTabs.tabUtils.resetDateToWeekStart(new Date());
+		date.setDate(date.getDate() - (weekPrev * 7));
 
 		for(var i = - this.pastTabs; i <= this.futureTabs; i++) {
 
@@ -57,21 +54,12 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			dateStart.setDate(date.getDate() + (i * 7));
 
 			var dateRealStart = new Date(dateStart);
-			dateRealStart.setDate(dateRealStart.getDate() + (this.weekPrev * 7));
-
-			var dateEnd = new Date(dateStart);
-			dateEnd.setDate(dateEnd.getDate() + ((this.weekCount - 1) * 7) + 6);
+			dateRealStart.setDate(dateRealStart.getDate() + (weekPrev * 7));
 
 			var tab = document.createElement("tab");
+			this.makeTabLabel(tab, dateStart);
 
-			var dateA = LightningCalendarTabs.tabUtils.jsDateToDateTime(dateStart);
-			var dateB = LightningCalendarTabs.tabUtils.jsDateToDateTime(dateEnd);
-			dateA.isDate = true;
-			dateB.isDate = true;
-			var label = formatter.formatInterval(dateA, dateB);
-
-			tab.setAttribute("label", label);
-			LightningCalendarTabs.tabUtils.prepareTabVisual(tab, i, dateStart, LightningCalendarTabs.tabUtils.PERIOD_MULTIWEEK);
+			LightningCalendarTabs.tabUtils.prepareTabVisual(tab, i, dateStart, this.periodType);
 
 			tab.addEventListener("click", (function(self, date) {
 				return function() {
@@ -87,22 +75,10 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		}
 	};
 
-	LightningCalendarTabs.multiWeekTabs.prototype.resetDateToWeekStart = function(date) {
-		var tmp = new Date(date);
-		while(tmp.getDay() != this.weekStartDay) {
-			tmp.setDate(tmp.getDate() - 1);
-		}
-		return tmp;
-	};
-
-	LightningCalendarTabs.multiWeekTabs.prototype.update = function(tabs) {
-		this.highlightCurrentWeek(tabs);
-	};
-
-	LightningCalendarTabs.multiWeekTabs.prototype.highlightCurrentWeek = function(tabs) {
+	LightningCalendarTabs.multiWeekTabs.prototype.highlightCurrent = function(tabs) {
 		var dateStart = currentView().rangeStartDate;
 		if(dateStart) {
-			var jsDateStart = this.resetDateToWeekStart(new Date(dateStart.year, dateStart.month, dateStart.day));
+			var jsDateStart = LightningCalendarTabs.tabUtils.resetDateToWeekStart(new Date(Date.UTC(dateStart.year, dateStart.month, dateStart.day)));
 			this.updateTabsState(tabs, jsDateStart);
 		}
 	};
@@ -111,20 +87,24 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		currentView().goToDay(LightningCalendarTabs.tabUtils.jsDateToDateTime(date));
 	};
 
-	LightningCalendarTabs.multiWeekTabs.prototype.updateTabsState = function(tabs, date) {
-		for(var i = 0; i < this.tabs.length; i++) {
-			if(this.dateEqual(date, this.tabs[i].date)) {
-				tabs.selectedIndex = i;
-				return;
-			}
-		}
-	};
-
 	LightningCalendarTabs.multiWeekTabs.prototype.dateEqual = function(a, b) {
 		if(a instanceof Date && b instanceof Date) {
 			return a.getDate() == b.getDate() && a.getMonth() == b.getMonth() && a.getFullYear() == b.getFullYear();
 		}
 		return false;
+	};
+	
+	LightningCalendarTabs.multiWeekTabs.prototype.makeTabLabel = function(tab, date) {
+		var weekCount = Preferences.get("calendar.weeks.inview", 4);
+		var dateEnd = new Date(date);
+		dateEnd.setDate(dateEnd.getDate() + ((weekCount - 1) * 7) + 6);
+		var dateA = LightningCalendarTabs.tabUtils.jsDateToDateTime(date);
+		var dateB = LightningCalendarTabs.tabUtils.jsDateToDateTime(dateEnd);
+		dateA.isDate = true;
+		dateB.isDate = true;
+		var label = this.formatter.formatInterval(dateA, dateB);
+
+		tab.setAttribute("label", label);
 	};
 
 })();

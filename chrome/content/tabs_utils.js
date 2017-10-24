@@ -99,5 +99,15 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		var ret = cal.jsDateToDateTime(aDate);
 		return ret;
 	};
+	
+	LightningCalendarTabs.tabUtils.resetDateToWeekStart = function(date) {
+		var weekStartDay = Preferences.get("calendar.week.start", 0);
+		var tmp = new Date(date);
+		while(tmp.getDay() != weekStartDay) {
+			tmp.setDate(tmp.getDate() - 1);
+		}
+		return tmp;
+	};
+
 
 })();

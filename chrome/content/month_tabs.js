@@ -29,15 +29,20 @@
 var LightningCalendarTabs = LightningCalendarTabs || {};
 
 (function() {
-
-	LightningCalendarTabs.monthTabs = function(pastCount, futureCount) {
-		this.tabs = [];
-
+	
+	LightningCalendarTabs.monthTabs = function(pastCount, futureCount, otherDateTabEnabled) {
+		LightningCalendarTabs.tabs.call(this, otherDateTabEnabled);
+		this.periodType = LightningCalendarTabs.tabUtils.PERIOD_MONTH;
 		this.pastMonths = pastCount;
 		this.futureMonths = futureCount;
 	};
+	
+	LightningCalendarTabs.monthTabs.prototype = Object.create(LightningCalendarTabs.tabs.prototype);
+	LightningCalendarTabs.monthTabs.prototype.constructor = LightningCalendarTabs.monthTabs;
 
 	LightningCalendarTabs.monthTabs.prototype.show = function(tabs) {
+		LightningCalendarTabs.tabs.prototype.show.call(this);
+		
 		var date = new Date();
 		date.setDate(1);
 
@@ -48,11 +53,9 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			tmpDate.setMonth(tmpDate.getMonth() + i);
 
 			var tab = document.createElement("tab");
-
-			var label = formatter.monthName(tmpDate.getMonth()) + " " + tmpDate.getFullYear();
-
-			tab.setAttribute("label", label);
-			LightningCalendarTabs.tabUtils.prepareTabVisual(tab, i, tmpDate, LightningCalendarTabs.tabUtils.PERIOD_MONTH);
+			this.makeTabLabel(tab, tmpDate);
+			
+			LightningCalendarTabs.tabUtils.prepareTabVisual(tab, i, tmpDate, this.periodType);
 
 			tab.addEventListener("click", (function(self, date) {
 				return function() {
@@ -68,17 +71,6 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		}
 	};
 
-	LightningCalendarTabs.monthTabs.prototype.update = function(tabs) {
-		this.highlightCurrentMonth(tabs);
-	};
-
-	LightningCalendarTabs.monthTabs.prototype.highlightCurrentMonth = function(tabs) {
-		var dateStart = currentView().rangeStartDate;
-		if(dateStart) {
-			this.updateTabsState(tabs, new Date(dateStart.year, dateStart.month, dateStart.day));
-		}
-	};
-
 	LightningCalendarTabs.monthTabs.prototype.selectMonth = function(date) {
 		var dateStart = currentView().rangeStartDate;
 		if(dateStart) {
@@ -91,20 +83,15 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		}
 	};
 
-	LightningCalendarTabs.monthTabs.prototype.updateTabsState = function(tabs, date) {
-		for(var i = 0; i < this.tabs.length; i++) {
-			if(this.dateEqual(date, this.tabs[i].date)) {
-				tabs.selectedIndex = i;
-				return;
-			}
-		}
-	};
-
 	LightningCalendarTabs.monthTabs.prototype.dateEqual = function(a, b) {
 		if(a instanceof Date && b instanceof Date) {
 			return a.getMonth() == b.getMonth() && a.getFullYear() == b.getFullYear();
 		}
 		return false;
+	};
+	
+	LightningCalendarTabs.monthTabs.prototype.makeTabLabel = function(tab, date) {
+		tab.setAttribute("label", this.formatter.monthName(date.getMonth()) + " " + date.getFullYear());
 	};
 
 })();

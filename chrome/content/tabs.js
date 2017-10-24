@@ -79,16 +79,20 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	};
 
 	LightningCalendarTabs.tabsController.prototype.initializeTabControllers = function() {
+		var stringBundleService = Cc["@mozilla.org/intl/stringbundle;1"].getService(Ci.nsIStringBundleService);
+		var stringBundle = stringBundleService.createBundle("chrome://lightningcalendartabs/locale/overlay.properties");
+
 		this.monthsEnabled = this.prefs.getBoolPref("extensions.lightningcalendartabs.tabs.months.enabled");
 		this.multiWeeksEnabled = this.prefs.getBoolPref("extensions.lightningcalendartabs.tabs.multiweeks.enabled");
 		this.weeksEnabled = this.prefs.getBoolPref("extensions.lightningcalendartabs.tabs.weeks.enabled");
 		this.daysEnabled = this.prefs.getBoolPref("extensions.lightningcalendartabs.tabs.days.enabled");
+		this.otherDateTabEnabled = this.prefs.getBoolPref("extensions.lightningcalendartabs.show_other_tab");
 
 		if(this.monthsEnabled) {
 			this.pastMonths = Math.max(0, this.prefs.getIntPref("extensions.lightningcalendartabs.tabs.months.past"));
 			this.futureMonths = Math.max(0, this.prefs.getIntPref("extensions.lightningcalendartabs.tabs.months.future"));
 
-			this.monthTabs = new LightningCalendarTabs.monthTabs(this.pastMonths, this.futureMonths);
+			this.monthTabs = new LightningCalendarTabs.monthTabs(this.pastMonths, this.futureMonths, this.otherDateTabEnabled, stringBundle);
 		} else {
 			this.monthTabs = null;
 		}
@@ -97,7 +101,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			this.pastMultiWeeks = Math.max(0, this.prefs.getIntPref("extensions.lightningcalendartabs.tabs.multiweeks.past"));
 			this.futureMultiWeeks = Math.max(0, this.prefs.getIntPref("extensions.lightningcalendartabs.tabs.multiweeks.future"));
 
-			this.multiWeekTabs = new LightningCalendarTabs.multiWeekTabs(this.pastMultiWeeks, this.futureMultiWeeks);
+			this.multiWeekTabs = new LightningCalendarTabs.multiWeekTabs(this.pastMultiWeeks, this.futureMultiWeeks, this.otherDateTabEnabled, stringBundle);
 		} else {
 			this.multiWeekTabs = null;
 		}
@@ -106,7 +110,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			this.pastWeeks = Math.max(0, this.prefs.getIntPref("extensions.lightningcalendartabs.tabs.weeks.past"));
 			this.futureWeeks = Math.max(0, this.prefs.getIntPref("extensions.lightningcalendartabs.tabs.weeks.future"));
 
-			this.weekTabs = new LightningCalendarTabs.weekTabs(this.pastWeeks, this.futureWeeks);
+			this.weekTabs = new LightningCalendarTabs.weekTabs(this.pastWeeks, this.futureWeeks, this.otherDateTabEnabled, stringBundle);
 		} else {
 			this.weekTabs = null;
 		}
@@ -115,7 +119,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			this.pastDays = Math.max(0, this.prefs.getIntPref("extensions.lightningcalendartabs.tabs.days.past"));
 			this.futureDays = Math.max(0, this.prefs.getIntPref("extensions.lightningcalendartabs.tabs.days.future"));
 
-			this.dayTabs = new LightningCalendarTabs.dayTabs(this.pastDays, this.futureDays);
+			this.dayTabs = new LightningCalendarTabs.dayTabs(this.pastDays, this.futureDays, this.otherDateTabEnabled, stringBundle);
 		} else {
 			this.dayTabs = null;
 		}
@@ -232,8 +236,70 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		this.selectCurrentController();
 		this.showTabBox();
 	};
+	
+	//--------------------------------------------------------------------------
+	
+	LightningCalendarTabs.tabs = function(otherDateTabEnabled) {
+		this.tabs = [];
+		this.otherDateTabEnabled = otherDateTabEnabled;
+		this.otherTab = null;
+		this.formatter = cal.getDateFormatter();
+	};
+	
+	LightningCalendarTabs.tabs.prototype.show = function() {
+		if(this.otherDateTabEnabled) {
+			this.otherTab = document.createElement('tab');
+			this.otherTab.collapse = true;
+		}
+	};
+	
+	LightningCalendarTabs.tabs.prototype.update = function(tabs) {
+		this.highlightCurrent(tabs);
+	};
 
-	//-----------------------------------------------------------------------------
+	LightningCalendarTabs.tabs.prototype.highlightCurrent = function(tabs) {
+		var dateStart = currentView().rangeStartDate;
+		console.log('dateStart', dateStart);
+		if(dateStart) {
+			this.updateTabsState(tabs, new Date(Date.UTC(dateStart.year, dateStart.month, dateStart.day)));
+		}
+	};
+
+	LightningCalendarTabs.tabs.prototype.updateTabsState = function(tabs, date) {
+		console.log('upd: ', date);
+		for(var i = 0; i < this.tabs.length; i++) {
+			if(this.dateEqual(date, this.tabs[i].date)) {
+				this.hideOtherTab(tabs);
+				tabs.selectedIndex = i;
+				return;
+			}
+		}
+		this.updateOtherTab(tabs, date);
+	};
+
+	LightningCalendarTabs.tabs.prototype.updateOtherTab = function(tabs, date) {
+		console.log('other upd: ', date);
+		if(this.otherDateTabEnabled && this.tabs.length > 0) {
+			if(date.getTime() < this.tabs[0].date) {
+				tabs.insertBefore(this.otherTab, tabs.firstChild);
+				tabs.selectedIndex = 0;
+			} else {
+				tabs.appendChild(this.otherTab);
+				tabs.selectedIndex = tabs.itemCount - 1;
+			}
+			this.makeTabLabel(this.otherTab, date);
+			this.otherTab.collapsed = false;
+			LightningCalendarTabs.tabUtils.prepareTabVisual(this.otherTab, tabs.selectedIndex == 0 ? -1 : 1, date, this.periodType);
+		}
+	};
+	
+	LightningCalendarTabs.tabs.prototype.hideOtherTab = function(tabs) {
+		if(this.otherDateTabEnabled && this.otherTab.parentNode) {
+			tabs.removeChild(this.otherTab);
+		}
+	};
+	
+	//--------------------------------------------------------------------------
 
 	/**
 	 * init
