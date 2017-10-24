@@ -259,14 +259,12 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 	LightningCalendarTabs.tabs.prototype.highlightCurrent = function(tabs) {
 		var dateStart = currentView().rangeStartDate;
-		console.log('dateStart', dateStart);
 		if(dateStart) {
 			this.updateTabsState(tabs, new Date(Date.UTC(dateStart.year, dateStart.month, dateStart.day)));
 		}
 	};
 
 	LightningCalendarTabs.tabs.prototype.updateTabsState = function(tabs, date) {
-		console.log('upd: ', date);
 		for(var i = 0; i < this.tabs.length; i++) {
 			if(this.dateEqual(date, this.tabs[i].date)) {
 				this.hideOtherTab(tabs);
@@ -278,7 +276,6 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	};
 
 	LightningCalendarTabs.tabs.prototype.updateOtherTab = function(tabs, date) {
-		console.log('other upd: ', date);
 		if(this.otherDateTabEnabled && this.tabs.length > 0) {
 			if(date.getTime() < this.tabs[0].date) {
 				tabs.insertBefore(this.otherTab, tabs.firstChild);
