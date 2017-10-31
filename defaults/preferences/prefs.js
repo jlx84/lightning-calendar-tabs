@@ -19,4 +19,4 @@ pref("extensions.lightningcalendartabs.tabs.text_color_past", "#666666");
 pref("extensions.lightningcalendartabs.tabs.text_color_future", "#000000");
 
 pref("extensions.lightningcalendartabs.tabs.text_color_new_period", "#000000");
-pref("extensions.lightningcalendartabs.show_other_tab", true);
+pref("extensions.lightningcalendartabs.tabs.show_other_tab", true);

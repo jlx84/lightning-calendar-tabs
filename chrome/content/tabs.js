@@ -86,7 +86,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		this.multiWeeksEnabled = this.prefs.getBoolPref("extensions.lightningcalendartabs.tabs.multiweeks.enabled");
 		this.weeksEnabled = this.prefs.getBoolPref("extensions.lightningcalendartabs.tabs.weeks.enabled");
 		this.daysEnabled = this.prefs.getBoolPref("extensions.lightningcalendartabs.tabs.days.enabled");
-		this.otherDateTabEnabled = this.prefs.getBoolPref("extensions.lightningcalendartabs.show_other_tab");
+		this.otherDateTabEnabled = this.prefs.getBoolPref("extensions.lightningcalendartabs.tabs.show_other_tab");
 
 		if(this.monthsEnabled) {
 			this.pastMonths = Math.max(0, this.prefs.getIntPref("extensions.lightningcalendartabs.tabs.months.past"));
