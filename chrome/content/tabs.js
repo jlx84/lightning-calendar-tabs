@@ -311,6 +311,12 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			}
 		);
 		prefListener.register();
+		var prefListenerWeekStart = new LightningCalendarTabs.prefObserver("calendar.week.start",
+			function(branch, name) {
+				lct.updatePrefs();
+			}
+		);
+		prefListenerWeekStart.register();
 	}, false);
 
 })();
