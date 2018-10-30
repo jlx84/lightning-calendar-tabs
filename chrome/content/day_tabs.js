@@ -43,45 +43,43 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	LightningCalendarTabs.dayTabs.prototype.show = function(tabs) {
 		LightningCalendarTabs.tabs.prototype.show.call(this);
 		
-		var date = new Date();
+		var date = LightningCalendarTabs.tabUtils.getCalendarToday();
 
-		for(var i = - this.pastDays; i <= this.futureDays; i++) {
+		if(date) {
+			for(var i = - this.pastDays; i <= this.futureDays; i++) {
+				var dateStart = date.clone();
+				dateStart.day+= i;
 
-			var dateStart = new Date(date);
-			dateStart.setDate(date.getDate() + i);
+				var tab = document.createElement("tab");
+				this.makeTabLabel(tab, dateStart);
 
-			var tab = document.createElement("tab");
-			this.makeTabLabel(tab, dateStart);
-			
-			LightningCalendarTabs.tabUtils.prepareTabVisual(tab, i, dateStart, this.periodType);
+				LightningCalendarTabs.tabUtils.prepareTabVisual(tab, i, dateStart, this.periodType);
 
-			tab.addEventListener("click", (function(self, date) {
-				return function() {
-					self.selectDay(date);
-				};
-			})(this, dateStart), false);
-			tabs.appendChild(tab);
+				tab.addEventListener("click", (function(self, date) {
+					return function() {
+						self.selectDay(date);
+					};
+				})(this, dateStart), false);
+				tabs.appendChild(tab);
 
-			this.tabs.push({
-				"tab" : tab,
-				"date" : dateStart
-			});
+				this.tabs.push({
+					"tab" : tab,
+					"date" : dateStart
+				});
+			}
 		}
 	};
 
 	LightningCalendarTabs.dayTabs.prototype.selectDay = function(date) {
-		currentView().goToDay(LightningCalendarTabs.tabUtils.jsDateToDateTime(date));
+		currentView().goToDay(date);
 	};
 
 	LightningCalendarTabs.dayTabs.prototype.dateEqual = function(a, b) {
-		if(a instanceof Date && b instanceof Date) {
-			return a.getDate() == b.getDate() && a.getMonth() == b.getMonth() && a.getFullYear() == b.getFullYear();
-		}
-		return false;
+		return a.day == b.day && a.month == b.month && a.year == b.year;
 	};
 	
 	LightningCalendarTabs.dayTabs.prototype.makeTabLabel = function(tab, date) {
-		tab.setAttribute("label", this.formatter.formatDate(LightningCalendarTabs.tabUtils.jsDateToDateTime(date)));
+		tab.setAttribute("label", this.formatter.formatDate(date));
 	};
 
 })();

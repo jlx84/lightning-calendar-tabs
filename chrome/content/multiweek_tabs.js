@@ -45,66 +45,61 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		
 		var weekPrev = Preferences.get("calendar.previousweeks.inview", 1);
 
-		var date = LightningCalendarTabs.tabUtils.resetDateToWeekStart(new Date());
-		date.setDate(date.getDate() - (weekPrev * 7));
+		var calendarToday = LightningCalendarTabs.tabUtils.getCalendarToday();
+		if(calendarToday) {
+			var date = LightningCalendarTabs.tabUtils.resetDateToWeekStart(calendarToday);
+			date.day-= weekPrev * 7;
 
-		for(var i = - this.pastTabs; i <= this.futureTabs; i++) {
+			for(var i = - this.pastTabs; i <= this.futureTabs; i++) {
+				var dateStart = date.clone();
+				dateStart.day+= i * 7;
 
-			var dateStart = new Date(date);
-			dateStart.setDate(date.getDate() + (i * 7));
+				var dateRealStart = dateStart.clone();
+				dateRealStart.day+= weekPrev * 7;
 
-			var dateRealStart = new Date(dateStart);
-			dateRealStart.setDate(dateRealStart.getDate() + (weekPrev * 7));
+				var tab = document.createElement("tab");
+				this.makeTabLabel(tab, dateStart);
 
-			var tab = document.createElement("tab");
-			this.makeTabLabel(tab, dateStart);
+				LightningCalendarTabs.tabUtils.prepareTabVisual(tab, i, dateStart, this.periodType);
 
-			LightningCalendarTabs.tabUtils.prepareTabVisual(tab, i, dateStart, this.periodType);
+				tab.addEventListener("click", (function(self, date) {
+					return function() {
+						self.selectWeeks(date);
+					};
+				})(this, dateRealStart), false);
+				tabs.appendChild(tab);
 
-			tab.addEventListener("click", (function(self, date) {
-				return function() {
-					self.selectWeeks(date);
-				};
-			})(this, dateRealStart), false);
-			tabs.appendChild(tab);
-
-			this.tabs.push({
-				"tab" : tab,
-				"date" : dateStart
-			});
+				this.tabs.push({
+					"tab" : tab,
+					"date" : dateStart
+				});
+			}
 		}
 	};
 
 	LightningCalendarTabs.multiWeekTabs.prototype.highlightCurrent = function(tabs) {
-		var dateStart = currentView().rangeStartDate;
+		var dateStart = LightningCalendarTabs.tabUtils.getCalendarStartDate();
 		if(dateStart) {
-			var jsDateStart = LightningCalendarTabs.tabUtils.resetDateToWeekStart(new Date(Date.UTC(dateStart.year, dateStart.month, dateStart.day)));
+			var jsDateStart = LightningCalendarTabs.tabUtils.resetDateToWeekStart(dateStart);
 			this.updateTabsState(tabs, jsDateStart);
 		}
 	};
 
 	LightningCalendarTabs.multiWeekTabs.prototype.selectWeeks = function(date) {
-		currentView().goToDay(LightningCalendarTabs.tabUtils.jsDateToDateTime(date));
+		currentView().goToDay(date);
 	};
 
 	LightningCalendarTabs.multiWeekTabs.prototype.dateEqual = function(a, b) {
-		if(a instanceof Date && b instanceof Date) {
-			return a.getDate() == b.getDate() && a.getMonth() == b.getMonth() && a.getFullYear() == b.getFullYear();
-		}
-		return false;
+		return a.day == b.day && a.month == b.month && a.year == b.year;
 	};
 	
-	LightningCalendarTabs.multiWeekTabs.prototype.makeTabLabel = function(tab, date) {
+	LightningCalendarTabs.multiWeekTabs.prototype.makeTabLabel = function(tab, dateStart) {
 		var weekCount = Preferences.get("calendar.weeks.inview", 4);
-		var dateEnd = new Date(date);
-		dateEnd.setDate(dateEnd.getDate() + ((weekCount - 1) * 7) + 6);
-		var dateA = LightningCalendarTabs.tabUtils.jsDateToDateTime(date);
-		var dateB = LightningCalendarTabs.tabUtils.jsDateToDateTime(dateEnd);
-		dateA.isDate = true;
-		dateB.isDate = true;
-		var label = this.formatter.formatInterval(dateA, dateB);
-
-		tab.setAttribute("label", label);
+		var dateEnd = dateStart.clone();
+		dateEnd.day+= ((weekCount - 1) * 7) + 6;
+		dateStart.isDate = true;
+		dateEnd.isDate = true;
+		tab.setAttribute("label", this.formatter.formatInterval(dateStart, dateEnd));
 	};
 
 })();

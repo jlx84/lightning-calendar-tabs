@@ -60,33 +60,33 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 		//color for new period tab
 		var newPeriodColor = prefs.getCharPref("extensions.lightningcalendartabs.tabs.text_color_new_period");
-		var tmp = new Date(date);
+		var tmp = date.clone();
 		switch(periodType) {
 			case this.PERIOD_WEEK: {
 				//contains first day of month
-				tmp.setDate(date.getDate() + 7);
-				if(date.getMonth() != tmp.getMonth() || date.getDate() == 1) {
+				tmp.day+= 7;
+				if(date.month != tmp.month || date.day == 1) {
 					tab.style.color = newPeriodColor;
 				}
 			} break;
 			case this.PERIOD_MULTIWEEK: {
 				//contains new year
 				var weekCount = Preferences.get("calendar.weeks.inview", 4);
-				tmp.setDate(date.getDate() + ((weekCount - 1) * 7) + 6);
-				if(date.getFullYear() != tmp.getFullYear() || (date.getMonth() == 0 && date.getDate() == 1)) {
+				tmp.day+= ((weekCount - 1) * 7) + 6;
+				if(date.year != tmp.year || (date.month == 0 && date.day == 1)) {
 					tab.style.color = newPeriodColor;
 				}
 			} break;
 			case this.PERIOD_MONTH: {
 				//first month of year
-				if(date.getMonth() == 0) {
+				if(date.month == 0) {
 					tab.style.color = newPeriodColor;
 				}
 			} break;
 			case this.PERIOD_DAY: {
 				//first day of week
 				var weekStartDay = Preferences.get("calendar.week.start", 0);
-				if(date.getDay() == weekStartDay) {
+				if(date.weekday == weekStartDay) {
 					tab.style.color = newPeriodColor;
 				}
 			} break;
@@ -95,17 +95,18 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		tab.setAttribute("class", classNames);
 	};
 
-	LightningCalendarTabs.tabUtils.jsDateToDateTime = function(aDate) {
-		var ret = cal.jsDateToDateTime(aDate);
-		return ret;
-	};
+	LightningCalendarTabs.tabUtils.getCalendarToday = function() {
+		return  currentView().today();
+	}
+
+	LightningCalendarTabs.tabUtils.getCalendarStartDate = function() {
+		return currentView().rangeStartDate;
+	}
 	
 	LightningCalendarTabs.tabUtils.resetDateToWeekStart = function(date) {
 		var weekStartDay = Preferences.get("calendar.week.start", 0);
-		var tmp = new Date(date);
-		while(tmp.getDay() != weekStartDay) {
-			tmp.setDate(tmp.getDate() - 1);
-		}
+		var tmp = date.clone();
+		tmp.day-= (tmp.weekday - weekStartDay + 7) % 7;
 		return tmp;
 	};
 
