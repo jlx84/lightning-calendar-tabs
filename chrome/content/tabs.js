@@ -258,9 +258,9 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	};
 
 	LightningCalendarTabs.tabs.prototype.highlightCurrent = function(tabs) {
-		var dateStart = currentView().rangeStartDate;
+		var dateStart = LightningCalendarTabs.tabUtils.getCalendarStartDate();
 		if(dateStart) {
-			this.updateTabsState(tabs, new Date(Date.UTC(dateStart.year, dateStart.month, dateStart.day)));
+			this.updateTabsState(tabs, dateStart);
 		}
 	};
 
@@ -277,7 +277,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 	LightningCalendarTabs.tabs.prototype.updateOtherTab = function(tabs, date) {
 		if(this.otherDateTabEnabled && this.tabs.length > 0) {
-			if(date.getTime() < this.tabs[0].date) {
+			if(date.nativeTime < this.tabs[0].date.nativeTime) {
 				tabs.insertBefore(this.otherTab, tabs.firstChild);
 				tabs.selectedIndex = 0;
 			} else {
