@@ -18,5 +18,6 @@ your development profile).
 
 ## "Building" the plugin
 
-Compress `chrome` and `defaults` folder along with `chrome.manifest`, `install.rdf` and `licence.txt` files using zip.
-Rename the zip file to *.xpi. Install locally using Thunderbird addon manager.
+Compress `chrome` and `defaults` folder along with `chrome.manifest`, `manifest.json`,
+`install.rdf` and `licence.txt` files using zip. Rename the zip file to *.xpi.
+Install locally using Thunderbird addon manager.

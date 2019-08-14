@@ -31,8 +31,6 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 (function() {
 
-	Components.utils["import"]("resource://calendar/modules/calUtils.jsm");
-
 	LightningCalendarTabs.tabUtils = LightningCalendarTabs.tabUtils || {};
 
 	LightningCalendarTabs.tabUtils.PERIOD_WEEK = "week";

@@ -50,7 +50,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 				var tmpDate = date.clone();
 				tmpDate.month+= i;
 
-				var tab = document.createElement("tab");
+				var tab = document.createXULElement("tab");
 				this.makeTabLabel(tab, tmpDate);
 
 				LightningCalendarTabs.tabUtils.prepareTabVisual(tab, i, tmpDate, this.periodType);
