@@ -224,8 +224,9 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	};
 
 	LightningCalendarTabs.tabsController.prototype.clearTabBoxContent = function() {
-		while(this.tabs.firstChild) {
-			this.tabs.removeChild(this.tabs.firstChild);
+		var elementsToRemove = this.tabs.getElementsByTagName('tab');
+		while(elementsToRemove.length) {
+			this.tabs.removeChild(elementsToRemove[0]);
 		}
 		this.tabBox.style.display = "none";
 	};
