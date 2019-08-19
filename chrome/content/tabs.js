@@ -30,9 +30,41 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 (function() {
 
-	var { cal } = ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
-	var { Services } = ChromeUtils.import('resource://gre/modules/Services.jsm');
+	var lightningPresent = false;
+
+	//var { Services } = ChromeUtils.import('resource://gre/modules/Services.jsm');
+	//Services.console.logStringMessage("LCT: start");
+
+	try {
+		var { cal } = ChromeUtils.import("resource://calendar/modules/calUtils.jsm");
+		lightningPresent = true;
+	} catch (error) {
+		//no Lightning, will not do anything
+	}
+		
+	if(lightningPresent) {
+		/**
+		 * init
+		 */
+		window.addEventListener("load", function(e) {
+			var lct = new LightningCalendarTabs.tabsController();
+			lct.startup();
 	
+			var prefListener = new LightningCalendarTabs.prefObserver("extensions.lightningcalendartabs.tabs.",
+				function(branch, name) {
+					lct.updatePrefs();
+				}
+			);
+			prefListener.register();
+			var prefListenerWeekStart = new LightningCalendarTabs.prefObserver("calendar.week.start",
+				function(branch, name) {
+					lct.updatePrefs();
+				}
+			);
+			prefListenerWeekStart.register();
+		}, false);
+	}
+
 	LightningCalendarTabs.tabsController = function() {
 		this.arrowscrollbox = null;
 		this.tabBox = null;
@@ -62,7 +94,6 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		var viewTabs = document.getElementById("view-tabs");
 	
 		if(viewTabs) {
-			Services.console.logStringMessage("LCT: starting");
 			getViewDeck().addEventListener("viewloaded", function(event) {
 				self.decideTabsVisibility();
 			}, false);
@@ -77,7 +108,6 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			
 			this.initializeTabControllers();
 		} else {
-			Services.console.logStringMessage("LCT: no view-tabs element found, waiting");
 			setTimeout(function() {
 				self.startup();
 			}, 1000);
@@ -140,10 +170,8 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	LightningCalendarTabs.tabsController.prototype.decideTabsVisibility = function() {
 		this.selectCurrentController();
 		if(this.currentTabs !== null) {
-			Services.console.logStringMessage("LCT: showing tabs - decideTabsVisibility");
 			this.showTabBox();
 		} else {
-			Services.console.logStringMessage("LCT: hiding tabs - decideTabsVisibility");
 			this.hideTabBox();
 		}
 	};
@@ -160,7 +188,6 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		var buttMultiWeek = document.getElementById("calendar-multiweek-view-button");
 
 		if(!buttMonth || !buttWeek || !buttDay || !buttMultiWeek) {
-			Services.console.logStringMessage("LCT: Lightning not available, waiting");
 			var self = this;
 			setTimeout(function() {
 				self.selectCurrentController();
@@ -182,7 +209,6 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			}
 	
 			if(newTabs != this.currentTabs) {
-				Services.console.logStringMessage("LCT: hiding tabs - selectCurrentController");
 				this.hideTabBox();
 				this.currentTabs = newTabs;
 			}
@@ -253,10 +279,8 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		if (this.startupInProgress)
 	  		return;
 		this.initializeTabControllers();
-		Services.console.logStringMessage("LCT: hiding tabs - updatePrefs");
 		this.hideTabBox();
 		this.selectCurrentController();
-		Services.console.logStringMessage("LCT: showing tabs - updatePrefs");
 		this.showTabBox();
 	};
 	
@@ -318,28 +342,5 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			tabs.removeChild(this.otherTab);
 		}
 	};
-	
-	//--------------------------------------------------------------------------
-
-	/**
-	 * init
-	 */
-	window.addEventListener("load", function(e) {
-		var lct = new LightningCalendarTabs.tabsController();
-		lct.startup();
-
-		var prefListener = new LightningCalendarTabs.prefObserver("extensions.lightningcalendartabs.tabs.",
-			function(branch, name) {
-				lct.updatePrefs();
-			}
-		);
-		prefListener.register();
-		var prefListenerWeekStart = new LightningCalendarTabs.prefObserver("calendar.week.start",
-			function(branch, name) {
-				lct.updatePrefs();
-			}
-		);
-		prefListenerWeekStart.register();
-	}, false);
 
 })();
