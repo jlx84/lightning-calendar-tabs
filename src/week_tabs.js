@@ -1,5 +1,4 @@
 "use strict";
-Components.utils.import("resource://gre/modules/Preferences.jsm");
 
 /*
     This file is part of Lightning Calendar Tabs extension.
@@ -38,13 +37,13 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		this.pastWeeks = pastCount;
 		this.futureWeeks = futureCount;
 	};
-	
+
 	LightningCalendarTabs.weekTabs.prototype = Object.create(LightningCalendarTabs.tabs.prototype);
 	LightningCalendarTabs.weekTabs.prototype.constructor = LightningCalendarTabs.weekTabs;
 
 	LightningCalendarTabs.weekTabs.prototype.show = function(tabs) {
 		LightningCalendarTabs.tabs.prototype.show.call(this);
-		
+
 		var calendarToday = LightningCalendarTabs.tabUtils.getCalendarToday();
 		if (calendarToday) {
 			var date = LightningCalendarTabs.tabUtils.resetDateToWeekStart(calendarToday);
@@ -88,7 +87,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	LightningCalendarTabs.weekTabs.prototype.dateEqual = function(a, b) {
 		return a.day == b.day && a.month == b.month && a.year == b.year;
 	};
-	
+
 	LightningCalendarTabs.weekTabs.prototype.makeTabLabel = function(tab, dateStart) {
 		var dateEnd = dateStart.clone();
 		dateEnd.day+= 6;

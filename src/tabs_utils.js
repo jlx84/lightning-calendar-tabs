@@ -1,5 +1,4 @@
 "use strict";
-Components.utils.import("resource://gre/modules/Preferences.jsm");
 
 /*
     This file is part of Lightning Calendar Tabs extension.
@@ -38,26 +37,23 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	LightningCalendarTabs.tabUtils.PERIOD_MONTH = "month";
 	LightningCalendarTabs.tabUtils.PERIOD_DAY = "day";
 
-	LightningCalendarTabs.tabUtils.prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-	
 	LightningCalendarTabs.tabUtils.prepareTabVisual = function(tab, i, date, periodType) {
-		var prefs = LightningCalendarTabs.tabUtils.prefs;
 		var classNames = "";
 
 		//color for the previous, current and past tab
 		if(i == 0) {
 			classNames = "current";
-			tab.style.color = prefs.getCharPref("extensions.lightningcalendartabs.tabs.text_color_current");
+			tab.style.color = browser.storage.sync.get("text_color_current");
 		} else if(i < 0) {
 			classNames = "past";
-			tab.style.color = prefs.getCharPref("extensions.lightningcalendartabs.tabs.text_color_past");
+			tab.style.color = browser.storage.sync.get("text_color_past");
 		} else if(i > 0) {
 			classNames = "future";
-			tab.style.color = prefs.getCharPref("extensions.lightningcalendartabs.tabs.text_color_future");
+			tab.style.color = browser.storage.sync.get("text_color_future");
 		}
 
 		//color for new period tab
-		var newPeriodColor = prefs.getCharPref("extensions.lightningcalendartabs.tabs.text_color_new_period");
+		var newPeriodColor = browser.storage.sync.get("text_color_new_period");
 		var tmp = date.clone();
 		switch(periodType) {
 			case this.PERIOD_WEEK: {
@@ -69,7 +65,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			} break;
 			case this.PERIOD_MULTIWEEK: {
 				//contains new year
-				var weekCount = Preferences.get("calendar.weeks.inview", 4);
+				var weekCount = browser.storage.sync.get("calendar.weeks.inview") || 4;
 				tmp.day+= ((weekCount - 1) * 7) + 6;
 				if(date.year != tmp.year || (date.month == 0 && date.day == 1)) {
 					tab.style.color = newPeriodColor;
@@ -83,7 +79,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			} break;
 			case this.PERIOD_DAY: {
 				//first day of week
-				var weekStartDay = Preferences.get("calendar.week.start", 0);
+				var weekStartDay = browser.storage.sync.get("calendar.week.start") || 0;
 				if(date.weekday == weekStartDay) {
 					tab.style.color = newPeriodColor;
 				}
@@ -100,9 +96,9 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	LightningCalendarTabs.tabUtils.getCalendarStartDate = function() {
 		return currentView().rangeStartDate;
 	}
-	
+
 	LightningCalendarTabs.tabUtils.resetDateToWeekStart = function(date) {
-		var weekStartDay = Preferences.get("calendar.week.start", 0);
+		var weekStartDay = browser.storage.sync.get("calendar.week.start") || 0;
 		var tmp = date.clone();
 		tmp.day-= (tmp.weekday - weekStartDay + 7) % 7;
 		return tmp;
