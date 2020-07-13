@@ -260,7 +260,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		this.tabs = [];
 		this.otherDateTabEnabled = otherDateTabEnabled;
 		this.otherTab = null;
-		this.formatter = LightningCalendarTabs.win.cal.getDateFormatter();
+		this.formatter = LightningCalendarTabs.win.cal.dtz.formatter;
 	};
 
 	LightningCalendarTabs.tabs.prototype.show = function () {
