@@ -67,11 +67,11 @@ var lightningcalendartabs = class extends ExtensionCommon.ExtensionAPI {
           defaultsBranch.setIntPref ("days.future", 7);
           defaultsBranch.setIntPref ("days.past", 2);
 
-          defaultsBranch.setStringPref("text_color_current", "#000000");
+          defaultsBranch.setStringPref("text_color_current", "#ff0000");
           defaultsBranch.setStringPref("text_color_past", "#666666");
-          defaultsBranch.setStringPref("text_color_future", "#000000");
+          defaultsBranch.setStringPref("text_color_future", "#0000ff");
 
-          defaultsBranch.setStringPref("text_color_new_period", "#000000");
+          defaultsBranch.setStringPref("text_color_new_period", "#ff8000");
           defaultsBranch.setBoolPref("show_other_tab", true);
 
           // Adds a listener to detect new windows.
