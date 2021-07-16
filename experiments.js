@@ -29,6 +29,10 @@ var lightningcalendartabs = class extends ExtensionCommon.ExtensionAPI {
   }
 
   onShutdown(isAppShutdown) {
+    ExtensionSupport.unregisterWindowListener(EXTENSION_NAME);
+    for (let win of Services.wm.getEnumerator("mail:3pane")) {
+      unpaint(win);
+    }
     if (isAppShutdown) return;
     this.chromeHandle.destruct();
     this.chromeHandle = null;
@@ -40,7 +44,6 @@ var lightningcalendartabs = class extends ExtensionCommon.ExtensionAPI {
   }
 
   getAPI(context) {
-    context.callOnClose(this);
     return {
       lightningcalendartabs: {
         addWindowListener(dummy) {
@@ -82,13 +85,6 @@ var lightningcalendartabs = class extends ExtensionCommon.ExtensionAPI {
       }
     }
   }
-
-  close() {
-    ExtensionSupport.unregisterWindowListener(EXTENSION_NAME);
-    for (let win of Services.wm.getEnumerator("mail:3pane")) {
-      unpaint(win);
-    }
-  }
 };
 
 function paint(win) {
@@ -98,8 +94,8 @@ function paint(win) {
               label="LCT Options"
               class="menuitem-iconic"/>
   `);
-  let ltnShowUnifinder = win.document.getElementById("ltnShowUnifinder");
-  ltnShowUnifinder.parentNode.append(xul);
+  let menuItem = win.document.getElementById("calShowUnifinder");
+  menuItem.parentNode.append(xul);
 
   win.lightningcalendartabs = {};
   Services.scriptloader.loadSubScript(extension.getURL("chrome/content/tabs.js"), win.lightningcalendartabs);
