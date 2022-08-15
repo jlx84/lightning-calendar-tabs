@@ -39,7 +39,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	LightningCalendarTabs.tabUtils.PERIOD_DAY = "day";
 
 	LightningCalendarTabs.tabUtils.prefs = Cc["@mozilla.org/preferences-service;1"].getService(Ci.nsIPrefBranch);
-	
+
 	LightningCalendarTabs.tabUtils.prepareTabVisual = function(tab, i, date, periodType) {
 		var prefs = LightningCalendarTabs.tabUtils.prefs;
 		var classNames = "";
@@ -56,38 +56,40 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			tab.style.color = prefs.getCharPref("extensions.lightningcalendartabs.tabs.text_color_future");
 		}
 
-		//color for new period tab
-		var newPeriodColor = prefs.getCharPref("extensions.lightningcalendartabs.tabs.text_color_new_period");
-		var tmp = date.clone();
-		switch(periodType) {
-			case this.PERIOD_WEEK: {
-				//contains first day of month
-				tmp.day+= 7;
-				if(date.month != tmp.month || date.day == 1) {
-					tab.style.color = newPeriodColor;
-				}
-			} break;
-			case this.PERIOD_MULTIWEEK: {
-				//contains new year
-				var weekCount = Preferences.get("calendar.weeks.inview", 4);
-				tmp.day+= ((weekCount - 1) * 7) + 6;
-				if(date.year != tmp.year || (date.month == 0 && date.day == 1)) {
-					tab.style.color = newPeriodColor;
-				}
-			} break;
-			case this.PERIOD_MONTH: {
-				//first month of year
-				if(date.month == 0) {
-					tab.style.color = newPeriodColor;
-				}
-			} break;
-			case this.PERIOD_DAY: {
-				//first day of week
-				var weekStartDay = Preferences.get("calendar.week.start", 0);
-				if(date.weekday == weekStartDay) {
-					tab.style.color = newPeriodColor;
-				}
-			} break;
+		//color for new period tab, only if not current
+		if(i != 0) {
+			var newPeriodColor = prefs.getCharPref("extensions.lightningcalendartabs.tabs.text_color_new_period");
+			var tmp = date.clone();
+			switch (periodType) {
+				case this.PERIOD_WEEK: {
+					//contains first day of month
+					tmp.day += 7;
+					if (date.month != tmp.month || date.day == 1) {
+						tab.style.color = newPeriodColor;
+					}
+				} break;
+				case this.PERIOD_MULTIWEEK: {
+					//contains new year
+					var weekCount = Preferences.get("calendar.weeks.inview", 4);
+					tmp.day += ((weekCount - 1) * 7) + 6;
+					if (date.year != tmp.year || (date.month == 0 && date.day == 1)) {
+						tab.style.color = newPeriodColor;
+					}
+				} break;
+				case this.PERIOD_MONTH: {
+					//first month of year
+					if (date.month == 0) {
+						tab.style.color = newPeriodColor;
+					}
+				} break;
+				case this.PERIOD_DAY: {
+					//first day of week
+					var weekStartDay = Preferences.get("calendar.week.start", 0);
+					if (date.weekday == weekStartDay) {
+						tab.style.color = newPeriodColor;
+					}
+				} break;
+			}
 		}
 
 		tab.setAttribute("class", classNames);
@@ -100,7 +102,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	LightningCalendarTabs.tabUtils.getCalendarStartDate = function() {
 		return LightningCalendarTabs.win.currentView().rangeStartDate;
 	}
-	
+
 	LightningCalendarTabs.tabUtils.resetDateToWeekStart = function(date) {
 		var weekStartDay = Preferences.get("calendar.week.start", 0);
 		var tmp = date.clone();
