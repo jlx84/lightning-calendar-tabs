@@ -62,7 +62,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		var viewTabs = LightningCalendarTabs.win.document.getElementById("view-tabs");
 
 		if (viewTabs) {
-			LightningCalendarTabs.win.getViewBox().addEventListener("viewloaded", function (event) {
+			LightningCalendarTabs.win.getViewBox().addEventListener("viewloaded", function () {
 				self.decideTabsVisibility();
 			}, false);
 			LightningCalendarTabs.win.getViewBox().addEventListener("dayselect", function () {
@@ -72,9 +72,10 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			viewTabs.addEventListener("select", function () {
 				self.decideTabsVisibility();
 			});
-			this.createTabBox();
-
 			this.initializeTabControllers();
+
+			this.createTabBox();
+			this.decideTabsVisibility();
 		} else {
 			setTimeout(function () {
 				self.startup();
