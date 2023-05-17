@@ -30,8 +30,8 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 (function () {
 
-    //var { Services } = ChromeUtils.import('resource://gre/modules/Services.jsm');
-    //Services.console.logStringMessage("LCT: start");
+    // var Services = globalThis.Services || ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+    // Services.console.logStringMessage("LCT: start");
 
     var lct, prefListener, prefListenerWeekStart;
 

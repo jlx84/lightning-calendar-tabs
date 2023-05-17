@@ -26,7 +26,7 @@
 	jlx@seznam.cz
 */
 
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services || ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 
 var preferences = [
 	{ id: "extensions.lightningcalendartabs.tabs.months.enabled", type: "bool" },

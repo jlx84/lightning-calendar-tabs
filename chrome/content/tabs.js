@@ -30,8 +30,8 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 (function () {
 
-	//var { Services } = ChromeUtils.import('resource://gre/modules/Services.jsm');
-	//Services.console.logStringMessage("LCT: start");
+	// var Services = globalThis.Services || ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
+	// Services.console.logStringMessage("LCT: start");
 
 	LightningCalendarTabs.tabsController = function () {
 		this.arrowscrollbox = null;
@@ -59,7 +59,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	LightningCalendarTabs.tabsController.prototype.startup = function () {
 		this.startupInProgress = true;
 		var self = this;
-		var viewTabs = LightningCalendarTabs.win.document.getElementById("view-tabs");
+		var viewTabs = LightningCalendarTabs.win.document.getElementById("viewToggle");
 
 		if (viewTabs) {
 			LightningCalendarTabs.win.getViewBox().addEventListener("viewloaded", function () {
@@ -77,8 +77,9 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 			this.createTabBox();
 			this.decideTabsVisibility();
 		} else {
-			setTimeout(function () {
-				self.startup();
+			// If the element is never found, this will run in an endless loop.
+			LightningCalendarTabs.win.setTimeout(function () {
+				self.startup(win);
 			}, 1000);
 		}
 		this.startupInProgress = false;
@@ -153,14 +154,15 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	 * @returns {undefined}
 	 */
 	LightningCalendarTabs.tabsController.prototype.selectCurrentController = function () {
-		var buttMonth = LightningCalendarTabs.win.document.getElementById("calendar-month-view-button");
-		var buttWeek = LightningCalendarTabs.win.document.getElementById("calendar-week-view-button");
-		var buttDay = LightningCalendarTabs.win.document.getElementById("calendar-day-view-button");
-		var buttMultiWeek = LightningCalendarTabs.win.document.getElementById("calendar-multiweek-view-button");
+		var buttMonth = LightningCalendarTabs.win.document.getElementById("calTabMonth");
+		var buttWeek = LightningCalendarTabs.win.document.getElementById("calTabWeek");
+		var buttDay = LightningCalendarTabs.win.document.getElementById("calTabDay");
+		var buttMultiWeek = LightningCalendarTabs.win.document.getElementById("calTabMultiweek");
 
 		if (!buttMonth || !buttWeek || !buttDay || !buttMultiWeek) {
 			var self = this;
-			setTimeout(function () {
+			// If those elements are never found, this will run in an endless loop.
+			LightningCalendarTabs.win.setTimeout(function () {
 				self.selectCurrentController();
 			}, 1000);
 		} else {
