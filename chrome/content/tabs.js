@@ -59,14 +59,19 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		var viewTabs = LightningCalendarTabs.win.document.getElementById("viewToggle");
 
 		if (viewTabs) {
-			LightningCalendarTabs.win.getViewBox().addEventListener("viewloaded", function () {
-				self.decideTabsVisibility();
-			}, false);
+			this.buttonMonth = LightningCalendarTabs.win.document.getElementById("calTabMonth");
+			this.buttonWeek = LightningCalendarTabs.win.document.getElementById("calTabWeek");
+			this.buttonDay = LightningCalendarTabs.win.document.getElementById("calTabDay");
+			this.buttonMultiWeek = LightningCalendarTabs.win.document.getElementById("calTabMultiweek");
+			// "viewloaded" hasn't existed since TB 102.
+			// LightningCalendarTabs.win.getViewBox().addEventListener("viewloaded", function () {
+			//   self.decideTabsVisibility();
+			// }, false);
 			LightningCalendarTabs.win.getViewBox().addEventListener("dayselect", function () {
 				self.updateTabs();
 			}, false);
 			//attach to lightning's tabs select event to switch tab type
-			viewTabs.addEventListener("select", function () {
+			viewTabs.addEventListener("click", function () {
 				self.decideTabsVisibility();
 			});
 			this.initializeTabControllers();
@@ -151,37 +156,24 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	 * @returns {undefined}
 	 */
 	LightningCalendarTabs.tabsController.prototype.selectCurrentController = function () {
-		var buttMonth = LightningCalendarTabs.win.document.getElementById("calTabMonth");
-		var buttWeek = LightningCalendarTabs.win.document.getElementById("calTabWeek");
-		var buttDay = LightningCalendarTabs.win.document.getElementById("calTabDay");
-		var buttMultiWeek = LightningCalendarTabs.win.document.getElementById("calTabMultiweek");
+		var newTabs = null;
 
-		if (!buttMonth || !buttWeek || !buttDay || !buttMultiWeek) {
-			var self = this;
-			// If those elements are never found, this will run in an endless loop.
-			LightningCalendarTabs.win.setTimeout(function () {
-				self.selectCurrentController();
-			}, 1000);
-		} else {
-			var newTabs = null;
+		if (this.buttonMonth.getAttribute("aria-selected") == "true") {
+			newTabs = this.monthTabs;
+		}
+		if (this.buttonMultiWeek.getAttribute("aria-selected") == "true") {
+			newTabs = this.multiWeekTabs;
+		}
+		if (this.buttonWeek.getAttribute("aria-selected") == "true") {
+			newTabs = this.weekTabs;
+		}
+		if (this.buttonDay.getAttribute("aria-selected") == "true") {
+			newTabs = this.dayTabs;
+		}
 
-			if (buttMonth.getAttribute("aria-selected")) {
-				newTabs = this.monthTabs;
-			}
-			if (buttMultiWeek.getAttribute("aria-selected")) {
-				newTabs = this.multiWeekTabs;
-			}
-			if (buttWeek.getAttribute("aria-selected")) {
-				newTabs = this.weekTabs;
-			}
-			if (buttDay.getAttribute("aria-selected")) {
-				newTabs = this.dayTabs;
-			}
-
-			if (newTabs != this.currentTabs) {
-				this.hideTabBox();
-				this.currentTabs = newTabs;
-			}
+		if (newTabs != this.currentTabs) {
+			this.hideTabBox();
+			this.currentTabs = newTabs;
 		}
 	};
 
