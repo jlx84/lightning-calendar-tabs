@@ -168,16 +168,16 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		} else {
 			var newTabs = null;
 
-			if (buttMonth.getAttribute("selected")) {
+			if (buttMonth.getAttribute("aria-selected")) {
 				newTabs = this.monthTabs;
 			}
-			if (buttMultiWeek.getAttribute("selected")) {
+			if (buttMultiWeek.getAttribute("aria-selected")) {
 				newTabs = this.multiWeekTabs;
 			}
-			if (buttWeek.getAttribute("selected")) {
+			if (buttWeek.getAttribute("aria-selected")) {
 				newTabs = this.weekTabs;
 			}
-			if (buttDay.getAttribute("selected")) {
+			if (buttDay.getAttribute("aria-selected")) {
 				newTabs = this.dayTabs;
 			}
 
