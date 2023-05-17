@@ -30,9 +30,6 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 (function () {
 
-	// var Services = globalThis.Services || ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
-	// Services.console.logStringMessage("LCT: start");
-
 	LightningCalendarTabs.tabsController = function () {
 		this.arrowscrollbox = null;
 		this.tabBox = null;
@@ -79,7 +76,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		} else {
 			// If the element is never found, this will run in an endless loop.
 			LightningCalendarTabs.win.setTimeout(function () {
-				self.startup(win);
+				self.startup();
 			}, 1000);
 		}
 		this.startupInProgress = false;

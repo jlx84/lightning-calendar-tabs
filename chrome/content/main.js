@@ -30,9 +30,6 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 (function () {
 
-    // var Services = globalThis.Services || ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
-    // Services.console.logStringMessage("LCT: start");
-
     var lct, prefListener, prefListenerWeekStart;
 
 	/**
@@ -40,6 +37,17 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	 */
     LightningCalendarTabs.init = function (win) {
         LightningCalendarTabs.win = win;
+        var self = this;
+        // If the Calendar isn't initialised yet, this will fail.
+        try {
+          let dummy = LightningCalendarTabs.tabUtils.getCalendarToday();
+        } catch (ex) {
+          // console.log("LCT: putting init() on a timeout");
+          win.setTimeout(function () {
+            self.init(win);
+          }, 500);
+          return;
+        }
         lct = new LightningCalendarTabs.tabsController();
         lct.startup();
 
