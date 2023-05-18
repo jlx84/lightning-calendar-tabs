@@ -2,6 +2,7 @@
 <?xml-stylesheet href="chrome://messenger/skin/messenger.css" type="text/css"?>
 <?xml-stylesheet href="chrome://messenger/skin/input-fields.css" type="text/css"?>
 <?xml-stylesheet type="text/css" href="chrome://messenger/skin/themeableDialog.css"?>
+<?xml-stylesheet href="chrome://messenger/skin/shared/grid-layout.css" type="text/css"?>
 
 <window xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
@@ -9,215 +10,101 @@
         onload="load()"
         lightweightthemes="true">
 <dialog id="lightningcalendartabs_prefwindow"
-	buttons="accept, cancel">
+        buttons="accept, cancel">
 
-		<script type="application/javascript" src="chrome://lightningcalendartabs/content/options.js"/>
-		<script type="application/javascript" src="chrome://messenger/content/dialogShadowDom.js"/>
+    <script type="application/javascript" src="chrome://lightningcalendartabs/content/options.js"/>
+    <script type="application/javascript" src="chrome://messenger/content/dialogShadowDom.js"/>
 
-		<description class="header" style="margin-inline-start: 0;">
-			Customize the functionality of Lightning calendar tabs
-		</description>
+    <description class="header" style="margin-inline-start: 0;">
+      Customize the functionality of Lightning calendar tabs
+    </description>
 
-		<separator class="thin"/>
+    <separator class="thin"/>
 
-		<hbox>
-			<groupbox width="280">
-				<caption class="header" style="margin-inline-start: 0;">Preferences of month tabs</caption>
+    <html:div class="grid-two-column-fr" style="padding: 10px 0 10px;">
+      <groupbox>
+        <caption class="header" style="margin-inline-start: 0;">Preferences of month tabs</caption>
+        <html:div class="grid-two-column-fr">
+          <label value="Enabled:" />
+          <checkbox checked="true" id="extensions.lightningcalendartabs.tabs.months.enabled" />
+          <label value="Amount of past tabs:" />
+          <html:input type="number" min="0" max="12" class="size2"
+                      id="extensions.lightningcalendartabs.tabs.months.past" />
+          <label value="Amount of future tabs:" />
+          <html:input type="number" min="0" max="12" class="size2"
+                      id="extensions.lightningcalendartabs.tabs.months.future" />
+        </html:div>
+      </groupbox>
 
-				<hbox>
-					<vbox width="200">
-						<label value="Enabled:" />
-					</vbox>
-					<vbox width="50">
-						<checkbox checked="true" id="extensions.lightningcalendartabs.tabs.months.enabled" />
-					</vbox>
-				</hbox>
+      <groupbox>
+        <caption class="header" style="margin-inline-start: 0;">Preferences of multiweek tabs</caption>
+        <html:div class="grid-two-column-fr">
+          <label value="Enabled:" />
+          <checkbox checked="true"
+                    id="extensions.lightningcalendartabs.tabs.multiweeks.enabled" />
+          <label value="Amount of past tabs:" />
+          <html:input type="number" min="0" max="20" class="size2"
+                      id="extensions.lightningcalendartabs.tabs.multiweeks.past" />
+          <label value="Amount of future tabs:" />
+          <html:input type="number" min="0" max="20" class="size2"
+                      id="extensions.lightningcalendartabs.tabs.multiweeks.future" />
+        </html:div>
+      </groupbox>
 
-				<hbox>
-					<vbox width="200">
-						<label value="Amount of past tabs:" />
-					</vbox>
-					<vbox width="70">
-						<html:input type="number" min="0" max="12" class="size2"
-                        id="extensions.lightningcalendartabs.tabs.months.past" />
-					</vbox>
-				</hbox>
+      <groupbox>
+        <caption class="header" style="margin-inline-start: 0;">Preferences of week tabs</caption>
+        <html:div class="grid-two-column-fr">
+          <label value="Enabled:" />
+          <checkbox checked="true"
+                    id="extensions.lightningcalendartabs.tabs.weeks.enabled" />
+          <label value="Amount of past tabs:" />
+          <html:input type="number" min="0" max="20" class="size2"
+                      id="extensions.lightningcalendartabs.tabs.weeks.past" />
+          <label value="Amount of future tabs:" />
+          <html:input type="number" min="0" max="20" class="size2"
+                      id="extensions.lightningcalendartabs.tabs.weeks.future" />
+        </html:div>
+      </groupbox>
 
-				<hbox>
-					<vbox width="200">
-						<label value="Amount of future tabs:" />
-					</vbox>
-					<vbox width="70">
-						<html:input type="number" min="0" max="12" class="size2"
-                        id="extensions.lightningcalendartabs.tabs.months.future" />
-					</vbox>
-				</hbox>
+      <groupbox>
+        <caption class="header" style="margin-inline-start: 0;">Preferences of day tabs</caption>
+        <html:div class="grid-two-column-fr">
+          <label value="Enabled:" />
+          <checkbox checked="true"
+                    id="extensions.lightningcalendartabs.tabs.days.enabled" />
+          <label value="Amount of past tabs:" />
+          <html:input type="number" min="0" max="31" class="size2"
+                      id="extensions.lightningcalendartabs.tabs.days.past" />
+          <label value="Amount of future tabs:" />
+          <html:input type="number" min="0" max="31" class="size2"
+                      id="extensions.lightningcalendartabs.tabs.days.future" />
+        </html:div>
+      </groupbox>
+    </html:div>
 
-			</groupbox>
-
-			<groupbox width="280">
-				<caption class="header" style="margin-inline-start: 0;">Preferences of multiweek tabs</caption>
-
-				<hbox>
-					<vbox width="200">
-						<label value="Enabled:" />
-					</vbox>
-					<vbox width="50">
-						<checkbox checked="true"
-                      id="extensions.lightningcalendartabs.tabs.multiweeks.enabled" />
-					</vbox>
-				</hbox>
-
-				<hbox>
-					<vbox width="200">
-						<label value="Amount of past tabs:" />
-					</vbox>
-					<vbox width="70">
-						<html:input type="number" min="0" max="20" class="size2"
-                        id="extensions.lightningcalendartabs.tabs.multiweeks.past" />
-					</vbox>
-				</hbox>
-
-				<hbox>
-					<vbox width="200">
-						<label value="Amount of future tabs:" />
-					</vbox>
-					<vbox width="70">
-						<html:input type="number" min="0" max="20" class="size2"
-                        id="extensions.lightningcalendartabs.tabs.multiweeks.future" />
-					</vbox>
-				</hbox>
-
-			</groupbox>
-		</hbox>
-		<hbox>
-			<groupbox width="280">
-				<caption class="header" style="margin-inline-start: 0;">Preferences of week tabs</caption>
-
-				<hbox>
-					<vbox width="200">
-						<label value="Enabled:" />
-					</vbox>
-					<vbox width="50">
-						<checkbox checked="true"
-                      id="extensions.lightningcalendartabs.tabs.weeks.enabled" />
-					</vbox>
-				</hbox>
-
-				<hbox>
-					<vbox width="200">
-						<label value="Amount of past tabs:" />
-					</vbox>
-					<vbox width="70">
-						<html:input type="number" min="0" max="20" class="size2"
-                        id="extensions.lightningcalendartabs.tabs.weeks.past" />
-					</vbox>
-				</hbox>
-
-				<hbox>
-					<vbox width="200">
-						<label value="Amount of future tabs:" />
-					</vbox>
-					<vbox width="70">
-						<html:input type="number" min="0" max="20" class="size2"
-                        id="extensions.lightningcalendartabs.tabs.weeks.future" />
-					</vbox>
-				</hbox>
-
-			</groupbox>
-
-			<groupbox width="280">
-				<caption class="header" style="margin-inline-start: 0;">Preferences of day tabs</caption>
-
-				<hbox>
-					<vbox width="200">
-						<label value="Enabled:" />
-					</vbox>
-					<vbox width="50">
-						<checkbox checked="true"
-                      id="extensions.lightningcalendartabs.tabs.days.enabled" />
-					</vbox>
-				</hbox>
-
-				<hbox>
-					<vbox width="200">
-						<label value="Amount of past tabs:" />
-					</vbox>
-					<vbox width="70">
-						<html:input type="number" min="0" max="31" class="size2"
-                        id="extensions.lightningcalendartabs.tabs.days.past" />
-					</vbox>
-				</hbox>
-
-				<hbox>
-					<vbox width="200">
-						<label value="Amount of future tabs:" />
-					</vbox>
-					<vbox width="70">
-						<html:input type="number" min="0" max="31" class="size2"
-                        id="extensions.lightningcalendartabs.tabs.days.future" />
-					</vbox>
-				</hbox>
-
-			</groupbox>
-		</hbox>
-
-		<!-- other settings -->
-		<hbox>
-			<groupbox width="380">
-				<caption class="header" style="margin-inline-start: 0;">Other settings</caption>
-
-				<hbox>
-					<vbox width="300">
-						<label value="Text color of current date tab:" />
-					</vbox>
-					<vbox>
-						<html:input type="color"
+    <!-- other settings -->
+    <hbox>
+      <groupbox>
+        <caption class="header" style="margin-inline-start: 0;">Other settings</caption>
+        <html:div class="grid-two-column-fr">
+            <label value="Text color of current date tab:" />
+            <html:input type="color"
                         id="extensions.lightningcalendartabs.tabs.text_color_current" />
-					</vbox>
-				</hbox>
-
-				<hbox>
-					<vbox width="300">
-						<label value="Text color of past date tab:" />
-					</vbox>
-					<vbox>
-						<html:input type="color"
+            <label value="Text color of past date tab:" />
+            <html:input type="color"
                         id="extensions.lightningcalendartabs.tabs.text_color_past" />
-					</vbox>
-				</hbox>
-
-				<hbox>
-					<vbox width="300">
-						<label value="Text color of future date tab:" />
-					</vbox>
-					<vbox>
-						<html:input type="color"
+            <label value="Text color of future date tab:" />
+            <html:input type="color"
                         id="extensions.lightningcalendartabs.tabs.text_color_future" />
-					</vbox>
-				</hbox>
-
-				<hbox>
-					<vbox width="300">
-						<label value="Text color of new period tab:" />
-					</vbox>
-					<vbox>
-						<html:input type="color"
+            <label value="Text color of new period tab:" />
+            <html:input type="color"
                         id="extensions.lightningcalendartabs.tabs.text_color_new_period" />
-					</vbox>
-				</hbox>
-				<hbox>
-					<vbox width="300">
-						<label value="Display additional tab when out of tabs range:" />
-					</vbox>
-					<vbox>
-						<checkbox checked="false"
+            <label value="Display additional tab when out of tabs range:" />
+            <checkbox checked="false"
                       id="extensions.lightningcalendartabs.tabs.show_other_tab" />
-					</vbox>
-				</hbox>
-
-			</groupbox>
-		</hbox>
+        </html:div>
+      </groupbox>
+    </hbox>
 
 </dialog>
 </window>
