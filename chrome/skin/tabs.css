@@ -48,3 +48,15 @@
 
 .lightning-calendar-tabs-tabs-container tab.future {
 }
+
+/* Styles for the options panel */
+#lightningcalendartabs_prefwindow .header {
+  font-weight: bold;
+  margin-inline-start: 0;
+  display: block;
+  padding: 10px 0 5px;
+}
+
+#lightningcalendartabs_prefwindow .left {
+  padding-right: 15px;
+}
