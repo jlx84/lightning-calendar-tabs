@@ -27,7 +27,7 @@
 */
 
 var { AppConstants } = ChromeUtils.import("resource://gre/modules/AppConstants.jsm");
-// Calendar UI was rebuilt in TB 112.
+// Calendar UI was rebuilt in TB 112, see: https://bugzilla.mozilla.org/show_bug.cgi?id=1806871.
 var useNewUI = parseInt(AppConstants.MOZ_APP_VERSION, 10) >= 112;
 
 var LightningCalendarTabs = LightningCalendarTabs || {};
