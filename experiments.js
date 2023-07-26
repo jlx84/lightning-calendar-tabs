@@ -8,14 +8,16 @@ var { ExtensionParent } = ChromeUtils.import('resource://gre/modules/ExtensionPa
 const EXTENSION_NAME = "lightningcalendartabs@jlx.84";
 var extension = ExtensionParent.GlobalManager.getExtension(EXTENSION_NAME);
 
-function loadStylesheets(styleSheets) {
-  // Load stylesheets
-  const styleSheetService = Cc["@mozilla.org/content/style-sheet-service;1"]
-    .getService(Ci.nsIStyleSheetService);
-  for (let i = 0, len = styleSheets.length; i < len; i++) {
-    const styleSheetURI = Services.io.newURI(styleSheets[i]);
-    styleSheetService.loadAndRegisterSheet(styleSheetURI, styleSheetService.AUTHOR_SHEET);
-  }
+function loadStylesheet(url, win) {
+  let link = win.document.createElementNS(
+    "http://www.w3.org/1999/xhtml",
+    "link",
+  );
+  link.setAttribute("rel", "stylesheet");
+  link.setAttribute("type", "text/css");
+  link.setAttribute("href", url);
+
+  win.document.documentElement.appendChild(link);
 }
 
 // Implements the functions defined in the experiments section of schema.json.
@@ -46,9 +48,6 @@ var lightningcalendartabs = class extends ExtensionCommon.ExtensionAPI {
     return {
       lightningcalendartabs: {
         addWindowListener(dummy) {
-          const styleSheets = [extension.getURL("chrome/skin/tabs.css")];
-          loadStylesheets(styleSheets);
-
           let defaultsBranch = Services.prefs.getDefaultBranch("extensions.lightningcalendartabs.tabs.");
           defaultsBranch.setBoolPref("months.enabled", true);
           defaultsBranch.setIntPref ("months.future", 6);
@@ -87,6 +86,8 @@ var lightningcalendartabs = class extends ExtensionCommon.ExtensionAPI {
 };
 
 function paint(win) {
+  loadStylesheet(extension.getURL("chrome/skin/tabs.css"), win);
+
   let xul = win.MozXULElement.parseXULToFragment(`
     <menuitem id="menu_LCT_options"
               oncommand="openDialog('chrome://lightningcalendartabs/content/options.xhtml', '_blank', 'chrome,centerscreen,titlebar,resizable', null);"
