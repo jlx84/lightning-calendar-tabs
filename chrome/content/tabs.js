@@ -35,7 +35,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 (function () {
 
 	LightningCalendarTabs.tabsController = function () {
-		this.arrowscrollbox = null;
+		this.arrowScrollBox = null;
 		this.tabBox = null;
 		this.tabs = null;
 
@@ -104,7 +104,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 
 	LightningCalendarTabs.tabsController.prototype.shutdown = function () {
 		var calendar = LightningCalendarTabs.win.document.getElementById("calendar-view-box");
-		calendar.removeChild(this.arrowscrollbox);
+		calendar.removeChild(this.arrowScrollBox);
 	};
 
 	LightningCalendarTabs.tabsController.prototype.initializeTabControllers = function () {
@@ -197,20 +197,24 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	 * create tabs container in the area between calendar and view switching tabs
 	 */
 	LightningCalendarTabs.tabsController.prototype.createTabBox = function () {
-		this.arrowscrollbox = LightningCalendarTabs.win.document.createXULElement("arrowscrollbox");
-		this.arrowscrollbox.setAttribute("orient", "horizontal");
-		this.arrowscrollbox.setAttribute("class", "lightning-calendar-tabs-tabs-container");
+		this.arrowScrollBox = LightningCalendarTabs.win.document.createXULElement("arrowscrollbox");
+		this.arrowScrollBox.setAttribute("orient", "horizontal");
+		this.arrowScrollBox.setAttribute("class", "lightning-calendar-tabs-tabs-container");
 
 		this.tabBox = LightningCalendarTabs.win.document.createXULElement("tabbox");
 
 		this.tabs = LightningCalendarTabs.win.document.createXULElement("tabs");
+		//this somehow enables scrolling left and right using `arrowscrollbox`
+		//stops preventing the tabs from shrinking the calendar view to narrower width than width of tabs
+		this.tabs.style.minWidth = "1px";
+		this.tabs.style.maxWidth = "500px";
 
 		var calendar = LightningCalendarTabs.win.document.getElementById("calendar-view-box");
 		var viewDeck = LightningCalendarTabs.win.document.getElementById("view-box");
 
-		calendar.insertBefore(this.arrowscrollbox, viewDeck);
+		calendar.insertBefore(this.arrowScrollBox, viewDeck);
 
-		this.arrowscrollbox.appendChild(this.tabBox);
+		this.arrowScrollBox.appendChild(this.tabBox);
 		this.tabBox.appendChild(this.tabs);
 	};
 
