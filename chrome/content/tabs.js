@@ -204,7 +204,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		this.tabBox = LightningCalendarTabs.win.document.createXULElement("tabbox");
 
 		this.tabs = LightningCalendarTabs.win.document.createXULElement("tabs");
-		//this somehow enables scrolling left and right using `arrowscrollbox`
+		//this somehow enables scrolling left and right using `arrowscrollbox` XUL element
 		//stops preventing the tabs from shrinking the calendar view to narrower width than width of tabs
 		this.tabs.style.minWidth = "1px";
 		this.tabs.style.maxWidth = "500px";
