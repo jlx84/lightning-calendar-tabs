@@ -26,10 +26,6 @@
 	jlx@seznam.cz
 */
 
-var { AppConstants } = ChromeUtils.import("resource://gre/modules/AppConstants.jsm");
-// Calendar UI was rebuilt in TB 112, see: https://bugzilla.mozilla.org/show_bug.cgi?id=1806871.
-var useNewUI = parseInt(AppConstants.MOZ_APP_VERSION, 10) >= 112;
-
 var LightningCalendarTabs = LightningCalendarTabs || {};
 
 (function () {
@@ -61,23 +57,13 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		this.startupInProgress = true;
 		var self = this;
 		var viewTabs;
-		if (useNewUI) {
-			viewTabs = LightningCalendarTabs.win.document.getElementById("viewToggle");
-		} else {
-			viewTabs = LightningCalendarTabs.win.document.getElementById("view-tabs");
-		}
+		viewTabs = LightningCalendarTabs.win.document.getElementById("viewToggle");
 		if (viewTabs) {
-			if (useNewUI) {
-				this.buttonMonth = LightningCalendarTabs.win.document.getElementById("calTabMonth");
-				this.buttonWeek = LightningCalendarTabs.win.document.getElementById("calTabWeek");
-				this.buttonDay = LightningCalendarTabs.win.document.getElementById("calTabDay");
-				this.buttonMultiWeek = LightningCalendarTabs.win.document.getElementById("calTabMultiweek");
-			} else {
-				this.buttonMonth = LightningCalendarTabs.win.document.getElementById("calendar-month-view-button");
-				this.buttonWeek = LightningCalendarTabs.win.document.getElementById("calendar-week-view-button");
-				this.buttonDay = LightningCalendarTabs.win.document.getElementById("calendar-day-view-button");
-				this.buttonMultiWeek = LightningCalendarTabs.win.document.getElementById("calendar-multiweek-view-button");
-			}
+			this.buttonMonth = LightningCalendarTabs.win.document.getElementById("calTabMonth");
+			this.buttonWeek = LightningCalendarTabs.win.document.getElementById("calTabWeek");
+			this.buttonDay = LightningCalendarTabs.win.document.getElementById("calTabDay");
+			this.buttonMultiWeek = LightningCalendarTabs.win.document.getElementById("calTabMultiweek");
+
 			// "viewloaded" hasn't existed since TB 102.
 			// LightningCalendarTabs.win.getViewBox().addEventListener("viewloaded", function () {
 			//   self.decideTabsVisibility();
@@ -86,7 +72,7 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 				self.updateTabs();
 			}, false);
 			//attach to lightning's tabs select event to switch tab type
-			viewTabs.addEventListener(useNewUI ? "click" : "select", function () {
+			viewTabs.addEventListener("click", function () {
 				self.decideTabsVisibility();
 			});
 			this.initializeTabControllers();
@@ -172,18 +158,17 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	 */
 	LightningCalendarTabs.tabsController.prototype.selectCurrentController = function () {
 		var newTabs = null;
-		var attr = useNewUI ? "aria-selected" : "selected";
 
-		if (this.buttonMonth.getAttribute(attr) == "true") {
+		if (this.buttonMonth.getAttribute("aria-selected") == "true") {
 			newTabs = this.monthTabs;
 		}
-		if (this.buttonMultiWeek.getAttribute(attr) == "true") {
+		if (this.buttonMultiWeek.getAttribute("aria-selected") == "true") {
 			newTabs = this.multiWeekTabs;
 		}
-		if (this.buttonWeek.getAttribute(attr) == "true") {
+		if (this.buttonWeek.getAttribute("aria-selected") == "true") {
 			newTabs = this.weekTabs;
 		}
-		if (this.buttonDay.getAttribute(attr) == "true") {
+		if (this.buttonDay.getAttribute("aria-selected") == "true") {
 			newTabs = this.dayTabs;
 		}
 

@@ -2,8 +2,12 @@
 // GNU General Public License, version 3.0.
 
 "use strict";
-var { ExtensionSupport } = ChromeUtils.import('resource:///modules/ExtensionSupport.jsm');
-var { ExtensionParent } = ChromeUtils.import('resource://gre/modules/ExtensionParent.jsm');
+var { ExtensionParent } = ChromeUtils.importESModule(
+  "resource://gre/modules/ExtensionParent.sys.mjs"
+);
+var { ExtensionSupport } = ChromeUtils.importESModule(
+  "resource:///modules/ExtensionSupport.sys.mjs"
+);
 
 const EXTENSION_NAME = "lightningcalendartabs@jlx.84";
 var extension = ExtensionParent.GlobalManager.getExtension(EXTENSION_NAME);

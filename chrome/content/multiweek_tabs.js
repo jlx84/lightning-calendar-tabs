@@ -1,5 +1,7 @@
 "use strict";
-var { Preferences } = ChromeUtils.import("resource://gre/modules/Preferences.jsm");
+var { Preferences } = ChromeUtils.importESModule(
+  "resource://gre/modules/Preferences.sys.mjs"
+);
 /*
     This file is part of Lightning Calendar Tabs extension.
 
