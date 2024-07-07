@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Lightning Calendar Tabs",
   "description": "An addon which extends the Lighting calendar views with tabs. Configure the addon in Events and tasks->LCT Options menu.",
-  "version": "3.2",
+  "version": "3.3",
   "author": "jlx84",
   "applications": {
     "gecko": {
