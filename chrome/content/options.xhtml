@@ -3,7 +3,7 @@
 <?xml-stylesheet href="chrome://messenger/skin/input-fields.css" type="text/css"?>
 <?xml-stylesheet href="chrome://messenger/skin/themeableDialog.css" type="text/css"?>
 <?xml-stylesheet href="chrome://messenger/skin/shared/grid-layout.css" type="text/css"?>
-<?xml-stylesheet href="../skin/tabs.css" type="text/css"?>
+<?xml-stylesheet href="chrome://skin/tabs.css" type="text/css"?>
 
 <window xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
@@ -24,7 +24,7 @@
 
     <html:div class="grid-two-column-fr">
       <html:div class="left">
-        <label class="header" value="Preferences of month tabs" />
+        <description class="header">Preferences of month tabs</description>
         <html:div class="grid-two-column-fr">
           <label value="Enabled:" />
           <checkbox checked="true" id="extensions.lightningcalendartabs.tabs.months.enabled" />
@@ -38,7 +38,7 @@
       </html:div>
 
       <html:div>
-        <label class="header" value="Preferences of multiweek tabs" />
+        <description class="header">Preferences of multiweek tabs</description>
         <html:div class="grid-two-column-fr">
           <label value="Enabled:" />
           <checkbox checked="true"
@@ -53,7 +53,7 @@
       </html:div>
 
       <html:div class="left">
-        <label class="header" value="Preferences of week tabs" />
+        <description class="header">Preferences of week tabs</description>
         <html:div class="grid-two-column-fr">
           <label value="Enabled:" />
           <checkbox checked="true"
@@ -68,7 +68,7 @@
       </html:div>
 
       <html:div>
-        <label class="header" value="Preferences of day tabs" />
+        <description class="header">Preferences of day tabs</description>
         <html:div class="grid-two-column-fr">
           <label value="Enabled:" />
           <checkbox checked="true"
@@ -85,7 +85,7 @@
 
     <!-- other settings -->
     <html:div>
-      <label class="header" value="Other settings" />
+      <description class="header">Other settings</description>
       <html:div class="grid-two-column-fr">
           <label value="Text color of current date tab:" />
           <html:input type="color"

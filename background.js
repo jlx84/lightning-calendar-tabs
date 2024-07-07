@@ -3,7 +3,7 @@
 /* globals browser */
 
 var init = async () => {
-  browser.lightningcalendartabs.addWindowListener("dummy");
+  browser.lightningcalendartabs.addWindowListener();
 };
 
 init();

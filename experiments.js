@@ -20,6 +20,8 @@ function loadStylesheet(url, win) {
   win.document.documentElement.appendChild(link);
 }
 
+var openOptionsDialog;
+
 // Implements the functions defined in the experiments section of schema.json.
 var lightningcalendartabs = class extends ExtensionCommon.ExtensionAPI {
   onStartup() {
@@ -47,7 +49,7 @@ var lightningcalendartabs = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     return {
       lightningcalendartabs: {
-        addWindowListener(dummy) {
+        addWindowListener() {
           let defaultsBranch = Services.prefs.getDefaultBranch("extensions.lightningcalendartabs.tabs.");
           defaultsBranch.setBoolPref("months.enabled", true);
           defaultsBranch.setIntPref ("months.future", 6);
@@ -79,6 +81,9 @@ var lightningcalendartabs = class extends ExtensionCommon.ExtensionAPI {
             onLoadWindow: paint,
             onUnloadWindow: unpaint,
           });
+        },
+        openOptions() {
+          openOptionsDialog();
         }
       }
     }
@@ -107,6 +112,10 @@ function paint(win) {
   Services.scriptloader.loadSubScript(extension.getURL("chrome/content/pref_observer.js"), win.lightningcalendartabs);
   Services.scriptloader.loadSubScript(extension.getURL("chrome/content/main.js"), win.lightningcalendartabs);
   win.lightningcalendartabs.LightningCalendarTabs.init(win);
+
+  openOptionsDialog = function () {
+    win.openDialog('chrome://lightningcalendartabs/content/options.xhtml', '_blank', 'chrome,centerscreen,titlebar,resizable', null);
+  };
 }
 
 function unpaint(win) {

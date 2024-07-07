@@ -7,14 +7,15 @@
         "type": "function",
         "description": "Adds a listener 3pane windows",
         "async": false,
-        "parameters": [
-          {
-            "name": "dummy",
-            "type": "string",
-            "description": "dummy"
-          }
-        ]
+        "parameters": []
+      },
+      {
+        "name": "openOptions",
+        "type": "function",
+        "description": "Open XUL options dialog",
+        "async": false,
+        "parameters": []
       }
-    ]  
+    ]
   }
 ]

@@ -26,6 +26,9 @@
       }
     }
   },
+  "options_ui": {
+    "page": "options.html"
+  },
   "background": {
     "scripts": [
       "background.js"

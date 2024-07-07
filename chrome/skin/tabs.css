@@ -54,7 +54,8 @@
   font-weight: bold;
   margin-inline-start: 0;
   display: block;
-  padding: 10px 0 5px;
+  padding: 100px 0;
+  margin: 0;
 }
 
 #lightningcalendartabs_prefwindow .left {
