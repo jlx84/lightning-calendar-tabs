@@ -79,7 +79,16 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	};
 	
 	LightningCalendarTabs.monthTabs.prototype.makeTabLabel = function(tab, date) {
-		tab.setAttribute("label", this.formatter.formatMonthLong(date.year, date.month));
+		if (this.formatter.monthName) {
+			//older than 133
+			tab.setAttribute("label", this.formatter.monthName(date.month) + " " + date.year);
+		} else if (this.formatter.formatMonthLong) {
+			//since v133
+			tab.setAttribute("label", this.formatter.formatMonthLong(date.year, date.month));
+		} else {
+			//fallback, probably will never be used
+			tab.setAttribute("label", String(date.month + 1) + "/" + date.year);
+		}
 	};
 
 })();
