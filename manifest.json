@@ -7,8 +7,7 @@
   "applications": {
     "gecko": {
       "id": "lightningcalendartabs@jlx.84",
-      "strict_min_version": "128.0",
-      "strict_max_version": "141.*"
+      "strict_min_version": "128.0"
     }
   },
   "experiment_apis": {
