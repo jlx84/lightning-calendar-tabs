@@ -107,14 +107,15 @@ function paint(win) {
   menuItem.parentNode.append(xul);
 
   win.lightningcalendartabs = {};
-  Services.scriptloader.loadSubScript(extension.getURL("chrome/content/tabs.js"), win.lightningcalendartabs);
-  Services.scriptloader.loadSubScript(extension.getURL("chrome/content/tabs_utils.js"), win.lightningcalendartabs);
-  Services.scriptloader.loadSubScript(extension.getURL("chrome/content/month_tabs.js"), win.lightningcalendartabs);
-  Services.scriptloader.loadSubScript(extension.getURL("chrome/content/week_tabs.js"), win.lightningcalendartabs);
-  Services.scriptloader.loadSubScript(extension.getURL("chrome/content/multiweek_tabs.js"), win.lightningcalendartabs);
-  Services.scriptloader.loadSubScript(extension.getURL("chrome/content/day_tabs.js"), win.lightningcalendartabs);
-  Services.scriptloader.loadSubScript(extension.getURL("chrome/content/pref_observer.js"), win.lightningcalendartabs);
-  Services.scriptloader.loadSubScript(extension.getURL("chrome/content/main.js"), win.lightningcalendartabs);
+  const options = { target: win.lightningcalendartabs, charset: "UTF-8", allowUnsafeURL: true };
+  Services.scriptloader.loadSubScriptWithOptions(extension.getURL("chrome/content/tabs.js"), options);
+  Services.scriptloader.loadSubScriptWithOptions(extension.getURL("chrome/content/tabs_utils.js"), options);
+  Services.scriptloader.loadSubScriptWithOptions(extension.getURL("chrome/content/month_tabs.js"), options);
+  Services.scriptloader.loadSubScriptWithOptions(extension.getURL("chrome/content/week_tabs.js"), options);
+  Services.scriptloader.loadSubScriptWithOptions(extension.getURL("chrome/content/multiweek_tabs.js"), options);
+  Services.scriptloader.loadSubScriptWithOptions(extension.getURL("chrome/content/day_tabs.js"), options);
+  Services.scriptloader.loadSubScriptWithOptions(extension.getURL("chrome/content/pref_observer.js"), options);
+  Services.scriptloader.loadSubScriptWithOptions(extension.getURL("chrome/content/main.js"), options);
   win.lightningcalendartabs.LightningCalendarTabs.init(win);
 
   openOptionsDialog = function () {
