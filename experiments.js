@@ -100,8 +100,7 @@ function paint(win) {
   let xul = win.MozXULElement.parseXULToFragment(`
     <menuitem id="menu_LCT_options"
               oncommand="openDialog('chrome://lightningcalendartabs/content/options.xhtml', '_blank', 'chrome,centerscreen,titlebar,resizable', null);"
-              label="LCT Options"
-              class="menuitem-iconic"/>
+              label="LCT Options" />
   `);
   let menuItem = win.document.getElementById("calShowUnifinder");
   menuItem.parentNode.append(xul);
