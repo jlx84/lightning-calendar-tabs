@@ -97,9 +97,13 @@ var lightningcalendartabs = class extends ExtensionCommon.ExtensionAPI {
 function paint(win) {
   loadStylesheet(extension.getURL("chrome/skin/tabs.css"), win);
 
+  // For some unknown reason, addressing the icon via a chrome:// URL doesn't work.
+  let icon = extension.getURL("chrome/skin/tabs-16.png");
   let xul = win.MozXULElement.parseXULToFragment(`
     <menuitem id="menu_LCT_options"
               oncommand="openDialog('chrome://lightningcalendartabs/content/options.xhtml', '_blank', 'chrome,centerscreen,titlebar,resizable', null);"
+              class="menuitem-iconic"
+              image="${icon}"
               label="LCT Options" />
   `);
   let menuItem = win.document.getElementById("calShowUnifinder");
