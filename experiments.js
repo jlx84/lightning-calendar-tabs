@@ -107,7 +107,9 @@ function paint(win) {
               label="LCT Options" />
   `);
   let menuItem = win.document.getElementById("calShowUnifinder");
-  menuItem.parentNode.append(xul);
+  if (menuItem && menuItem.parentNode) {
+    menuItem.parentNode.append(xul);
+  }
 
   win.lightningcalendartabs = {};
   const options = { target: win.lightningcalendartabs, charset: "UTF-8", allowUnsafeURL: true };

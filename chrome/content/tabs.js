@@ -59,26 +59,43 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 		var viewTabs;
 		viewTabs = LightningCalendarTabs.win.document.getElementById("viewToggle");
 		if (viewTabs) {
-			this.buttonMonth = LightningCalendarTabs.win.document.getElementById("calTabMonth");
-			this.buttonWeek = LightningCalendarTabs.win.document.getElementById("calTabWeek");
-			this.buttonDay = LightningCalendarTabs.win.document.getElementById("calTabDay");
-			this.buttonMultiWeek = LightningCalendarTabs.win.document.getElementById("calTabMultiweek");
+			try {
+				this.buttonMonth = LightningCalendarTabs.win.document.getElementById("calTabMonth");
+				this.buttonWeek = LightningCalendarTabs.win.document.getElementById("calTabWeek");
+				this.buttonDay = LightningCalendarTabs.win.document.getElementById("calTabDay");
+				this.buttonMultiWeek = LightningCalendarTabs.win.document.getElementById("calTabMultiweek");
 
-			// "viewloaded" hasn't existed since TB 102.
-			// LightningCalendarTabs.win.getViewBox().addEventListener("viewloaded", function () {
-			//   self.decideTabsVisibility();
-			// }, false);
-			LightningCalendarTabs.win.getViewBox().addEventListener("dayselect", function () {
-				self.updateTabs();
-			}, false);
-			//attach to lightning's tabs select event to switch tab type
-			viewTabs.addEventListener("click", function () {
-				self.decideTabsVisibility();
-			});
-			this.initializeTabControllers();
+				if (!this._wired) {
+					// "viewloaded" hasn't existed since TB 102.
+					// LightningCalendarTabs.win.getViewBox().addEventListener("viewloaded", function () {
+					//   self.decideTabsVisibility();
+					// }, false);
+					LightningCalendarTabs.win.getViewBox().addEventListener("dayselect", function () {
+						self.updateTabs();
+					}, false);
+					//attach to lightning's tabs select event to switch tab type
+					viewTabs.addEventListener("click", function () {
+						self.decideTabsVisibility();
+					});
+					this._wired = true;
+				}
+				this.initializeTabControllers();
 
-			this.createTabBox();
-			this.decideTabsVisibility();
+				if (!this.arrowScrollBox) {
+					this.createTabBox();
+				}
+				this.decideTabsVisibility();
+			} catch (ex) {
+				console.error("Lightning Calendar Tabs: startup failed, retrying", ex);
+				if (this.arrowScrollBox && this.arrowScrollBox.parentNode) {
+					this.arrowScrollBox.parentNode.removeChild(this.arrowScrollBox);
+				}
+				this.arrowScrollBox = null;
+				LightningCalendarTabs.win.setTimeout(function () {
+					self.startup();
+				}, 500);
+				return;
+			}
 		} else {
 			// If the element is never found, this will run in an endless loop.
 			LightningCalendarTabs.win.setTimeout(function () {
@@ -158,17 +175,21 @@ var LightningCalendarTabs = LightningCalendarTabs || {};
 	 */
 	LightningCalendarTabs.tabsController.prototype.selectCurrentController = function () {
 		var newTabs = null;
+		var viewId = "";
+		try {
+			var view = LightningCalendarTabs.win.currentView();
+			viewId = view && view.id ? view.id : "";
+		} catch (ex) {
+			viewId = "";
+		}
 
-		if (this.buttonMonth.getAttribute("aria-selected") == "true") {
+		if (this.buttonMonth.getAttribute("aria-selected") == "true" || viewId == "month-view") {
 			newTabs = this.monthTabs;
-		}
-		if (this.buttonMultiWeek.getAttribute("aria-selected") == "true") {
+		} else if (this.buttonMultiWeek.getAttribute("aria-selected") == "true" || viewId == "multiweek-view") {
 			newTabs = this.multiWeekTabs;
-		}
-		if (this.buttonWeek.getAttribute("aria-selected") == "true") {
+		} else if (this.buttonWeek.getAttribute("aria-selected") == "true" || viewId == "week-view") {
 			newTabs = this.weekTabs;
-		}
-		if (this.buttonDay.getAttribute("aria-selected") == "true") {
+		} else if (this.buttonDay.getAttribute("aria-selected") == "true" || viewId == "day-view") {
 			newTabs = this.dayTabs;
 		}
 

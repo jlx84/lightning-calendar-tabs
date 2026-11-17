@@ -5,14 +5,12 @@
 <?xml-stylesheet href="chrome://messenger/skin/shared/grid-layout.css" type="text/css"?>
 <?xml-stylesheet href="chrome://skin/tabs.css" type="text/css"?>
 
-<window xmlns:html="http://www.w3.org/1999/xhtml"
+<dialog xmlns:html="http://www.w3.org/1999/xhtml"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-        icon="messengerWindow"
+        id="lightningcalendartabs_prefwindow"
+        buttons="accept,cancel"
         title="Lightning calendar tabs settings"
-        onload="load()"
-        lightweightthemes="true">
-<dialog id="lightningcalendartabs_prefwindow"
-        buttons="accept, cancel">
+        onload="load()">
 
     <script type="application/javascript" src="chrome://lightningcalendartabs/content/options.js"/>
     <script type="application/javascript" src="chrome://messenger/content/dialogShadowDom.js"/>
@@ -101,10 +99,8 @@
           <html:input type="color"
                       id="extensions.lightningcalendartabs.tabs.text_color_new_period" />
           <label value="Display additional tab when out of tabs range:" />
-          <checkbox checked="false"
-                    id="extensions.lightningcalendartabs.tabs.show_other_tab" />
+          <checkbox id="extensions.lightningcalendartabs.tabs.show_other_tab" />
       </html:div>
     </html:div>
 
 </dialog>
-</window>
