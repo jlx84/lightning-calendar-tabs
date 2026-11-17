@@ -66,7 +66,8 @@ function load() {
 				break;
 
 			case "bool":
-				element.setAttribute("checked", branch.getBoolPref(prefName) ? "true" : "false");
+				// checked is a boolean attribute: checked="false" still counts as checked.
+				element.checked = branch.getBoolPref(prefName);
 				break;
 
 			case "string":
@@ -84,11 +85,11 @@ function save() {
 
 		switch (pref.type) {
 			case "int":
-				branch.setIntPref(prefName, element.value);
+				branch.setIntPref(prefName, Number.parseInt(element.value, 10) || 0);
 				break;
 
 			case "bool":
-				branch.setBoolPref(prefName, element.getAttribute("checked") == "true");
+				branch.setBoolPref(prefName, !!element.checked);
 				break;
 
 			case "string":
